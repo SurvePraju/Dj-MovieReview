@@ -1,0 +1,18 @@
+/* body {
+    background-color: gray;
+} */
+
+input[type="text"] {
+    width: 49%;
+    display: inline;
+}
+
+
+input[type="password"] {
+    width: 49%;
+    display: inline;
+}
+
+.exd {
+    width: 100px;
+}

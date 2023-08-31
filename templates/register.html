@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Register{% endblock %}
+
+
+{% block content %}
+<div class="row rounded my-5">
+    <div class="col-2"></div>
+    <div class="col-8 bg-light  rounded-4 overflow-hidden">
+        <div class="row">
+            <div class="col-6 p-0">
+                <img src="../static/images/abc1.jpg" alt="Register" class="img-fluid">
+            </div>
+            <div class="col-6 ps-3 pe-3 pb-2 pt-5 border">
+                <div class="text-center mb-3">
+                    <h3>Create an Account </h3>
+                </div>
+                <form action="{% url 'register' %}" method="POST">
+                    {% csrf_token %}
+                    {{form}}
+                    <div class="d-grid gap-2">
+                        <input type="submit" value="Register" class="btn btn-primary btn-lg">
+                    </div>
+                    <hr>
+                    <div class="text-center mt-2"><small>Forgot Password ?<br><a href="{% url 'login' %}"
+                        class="link-underline-primary">Already have an Account! Login?</a></small>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}
