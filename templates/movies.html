@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Movies
+{% endblock title %}
+
+
+
+{% block content %}
+
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col-3 shadow rounded me-3 ms-5 h-100">
+            <p class="lead h4 pt-2 pb-2">Filter By</p>
+            <hr class="m-0">
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item border-0">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button m-0 px-2 py-1" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <h5 class="pt-2 border-0">Genre</h5>
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            {% if movie_genres %}
+                            {% for genre in movie_genres %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheck{{genre.id}}">
+                                <label class="form-check-label" for="flexCheck{{genre.id}}">
+                                    {{ genre.genre_name }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-8 ms-3">
+            <div class="row">
+                {% if movies %}
+                {% for movie in movies %}
+                <div class="col-4 mb-3 me-0 shadow">
+                    <img src="{{ movie.movie_poster.url }}" alt="" class="object-fit-fill">
+                    <div class=""></div>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

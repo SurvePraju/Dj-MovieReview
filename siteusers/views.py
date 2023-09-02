@@ -6,6 +6,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.views import View
 from .forms import *
+
 # Create your views here.
 
 
@@ -62,3 +63,13 @@ def user_logout(request):
         messages.success(
             request, f"User {request.user.username} Logged Off Succesfully!")
         return redirect("login")
+
+
+class Profile(View):
+    def get(self, request):
+        form = UserRegistrationForm()
+        # form = ChangePassword()
+        return render(request, "profile.html", {"form": form})
+
+    def post(self, request):
+        return render(request, "profile.html")
