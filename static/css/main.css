@@ -16,3 +16,36 @@ input[type="password"] {
 .exd {
     width: 100px;
 }
+
+
+input[type="search"] {
+    width: 100%;
+}
+
+.search-box {
+    width: 100%;
+}
+
+
+.small-text-custom {
+    font-size: 8px;
+}
+
+
+.navbar-hover:hover {
+    background-color: rgb(182, 212, 202);
+    color: black;
+    padding-left: 10px;
+}
+
+.navbar-links:hover {
+    color: rgba(255, 255, 255, 0.5)
+}
+
+.search-bar {
+    text-align: center;
+}
+
+#logo-font {
+    font-family: Copperplate, "Copperplate Gothic Light", fantasy;
+}

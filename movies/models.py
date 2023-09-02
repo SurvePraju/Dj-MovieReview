@@ -6,9 +6,15 @@ from django.db import models
 class Genre(models.Model):
     genre_category = models.CharField(max_length=50, unique=True, blank=False)
 
+    def __str__(self) -> str:
+        return self.genre_category
+
 
 class People(models.Model):
-    person_name = models.CharField(max_length=100, blank=False)
+    actors_name = models.CharField(max_length=100, blank=False)
+
+    def __str__(self) -> str:
+        return self.actors_name
 
 
 class Movies(models.Model):
@@ -16,6 +22,15 @@ class Movies(models.Model):
     movie_poster = models.ImageField(upload_to="poster/")
     movie_images = models.ImageField(upload_to="movie_images/")
     movie_plot = models.TextField(max_length=1000)
-    movie_length = models.SmallIntegerField(max_length=3)
+    movie_length = models.SmallIntegerField()
     movie_release = models.DateField()
     movie_budget = models.PositiveIntegerField()
+
+    def __str__(self) -> str:
+        return self.movie_name
+
+
+class Reviews(models.Model):
+    review = models.TextField(max_length=1000)
+    # rate=models
+    pass

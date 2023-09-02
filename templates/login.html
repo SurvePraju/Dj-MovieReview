@@ -7,13 +7,14 @@
 {% block content %}
 <div class="row my-5">
     <div class="col-2"></div>
-    <div class="col-8 rounded-4 overflow-hidden">
+    <div class="col-8 rounded-4 overflow-hidden shadow-lg">
         <div class="row">
             <div class="col-6 p-0">
-                <img src="../static/images/bcs.jpg" alt="" class="img-fluid p-0">
+                {% load static %}
+                <img src="{% static '/images/bcs.jpg' %}" alt="" class="img-fluid p-0">
             </div>
-            <div class="col-6 bg-light  pb-5">
-                <div class="text-center mt-5 mb-4">
+            <div class="col-6 bg-light pb-5">
+                <div class="text-center mt-3 mb-4">
                     <h3>Welcome Back !</h3>
                 </div>
                 <form action="{% url 'login' %}" method="POST" validate>
