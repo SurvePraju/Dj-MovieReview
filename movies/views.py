@@ -22,6 +22,7 @@ class AddMovies(View):
 class MoviesPage(View):
     def get(self, request):
         movie_genre = Genres.objects.all()
+        languages = Language.objects.all()
         movies = Movies.objects.all()
 
-        return render(request, "movies.html", {"movie_genres": movie_genre, "movies": movies})
+        return render(request, "movies.html", {"movie_genres": movie_genre, "movies": movies, "movie_language": languages})

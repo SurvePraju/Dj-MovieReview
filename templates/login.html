@@ -17,7 +17,7 @@
                 <div class="text-center mt-3 mb-4">
                     <h3>Welcome Back !</h3>
                 </div>
-                <form action="{% url 'login' %}" method="POST" validate>
+                <form action="{% url 'login' %}" method="POST" validate class="input-group-lg">
                     {% csrf_token %}
                     {{form.as_p}}
                     <div class="d-grid gap-2 mx-3 me-4">

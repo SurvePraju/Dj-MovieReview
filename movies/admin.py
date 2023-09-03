@@ -6,5 +6,6 @@ from .models import *
 # class RegisterMovies(admin.ModelAdmin):
 
 admin.site.register(Movies)
+admin.site.register(Language)
 admin.site.register(People)
 admin.site.register(Genres)

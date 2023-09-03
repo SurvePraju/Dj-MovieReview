@@ -19,6 +19,13 @@ class People(models.Model):
         return self.actors_name
 
 
+class Language(models.Model):
+    language = models.CharField(max_length=50, unique=True, blank=False)
+
+    def __str__(self) -> str:
+        return self.language
+
+
 class Movies(models.Model):
     movie_name = models.CharField(max_length=100, unique=True, blank=False)
     movie_poster = models.ImageField(upload_to="poster/")
@@ -26,9 +33,15 @@ class Movies(models.Model):
     movie_plot = models.TextField(max_length=1000)
     movie_length = models.SmallIntegerField()
     movie_release = models.DateField()
+    movie_director = models.CharField(max_length=100)
+    movie_writer = models.CharField(max_length=190)
     movie_budget = models.PositiveIntegerField()
     movie_genre = models.ManyToManyField(Genres)
     movie_cast = models.ManyToManyField(People)
+    movie_language = models.ForeignKey(Language, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return self.movie_name
+
+    def release_year(self):
+        return self.movie_release.strftime("%Y")

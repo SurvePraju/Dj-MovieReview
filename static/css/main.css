@@ -49,3 +49,28 @@ input[type="search"] {
 #logo-font {
     font-family: Copperplate, "Copperplate Gothic Light", fantasy;
 }
+
+
+/* .accordion-button:focus {
+    background-color: rgb(196, 76, 76);
+    color: azure;
+} */
+
+
+.movie-font {
+    font-size: 14px;
+    font-family: cursive;
+}
+
+.movie-text {
+    font-size: 10px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.movie-banner {
+    height: 340px;
+}
+
+.movie-poster-image {
+    max-height: 78%;
+}
