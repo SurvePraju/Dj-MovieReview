@@ -69,16 +69,22 @@ Movies
                 <div class="col-3 mb-3">
                     <div class="card shadow movie-banner">
                         <img src="{{ movie.movie_poster.url }}" alt="" class="card-img-top movie-poster-image">
-                        <div class="card-body p-1 movie-banner-info" >
+                        <div class="card-body p-1 movie-banner-info">
                             <div class="card-title mb-0">{{movie.movie_name}}</div>
-                            <div class="card-text movie-text">{{movie.movie_language}}|<svg xmlns="http://www.w3.org/2000/svg" width="16" height="10" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
-                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                              </svg>{{movie.release_year}}</div>
+                            <div class="card-text movie-text">{{movie.movie_language}}|<svg
+                                    xmlns="http://www.w3.org/2000/svg" width="16" height="10" fill="currentColor"
+                                    class="bi bi-calendar" viewBox="0 0 16 16">
+                                    <path
+                                        d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                                </svg>{{movie.release_year}}</div>
                         </div>
                     </div>
                 </div>
-               
+
                 {% endfor %}
+                {% else %}
+                <hr>
+                <h4 class="text-center">No Movies Found</h4>
                 {% endif %}
             </div>
         </div>
