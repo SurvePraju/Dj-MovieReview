@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}{{movie.movie_name}}{% endblock title %}
+
+
+
+{% block content %}
+
+
+<div class="container-fluid m-0 h-100 w-100" style="width: 100vw;">
+    <div class="movie-cover">
+        <img src="{{ movie.movie_images.url }}" alt="" class="img-fluid" style="height: 400px; width: 100vw;">
+        <div class="movie-cover-overlap">
+
+            <div class="row">
+                <div class="col-3">
+
+                    <div class="p-3 bg-light rounded-3 shadow-lg">
+                        <img src="{{ movie.movie_poster.url }}" class="img-fluid rounded-3" alt="">
+                        <div class="mx-2 mt-2">
+                            <strong class="movie-info">Directors</strong>
+                            <p class="movie-details">
+                                {{movie.movie_director}}
+                            </p>
+                            <strong class="movie-info">Writers</strong>
+                            <p class="movie-details">
+                                {{movie.movie_writer}}
+                            </p>
+                            <strong class="movie-info">Casts</strong>
+                            <p class="movie-details">
+                                {{movie.movie_cast}}
+                            </p>
+                            <strong class="movie-info">Plot</strong>
+                            <p class="movie-details">
+                                {{movie.movie_plot}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-7 ms-5">
+                    <div class="bg-light shadow-lg rounded-3 ps-3 pt-3 pb-3">
+                        <h2 class="fw-bolder">{{movie.movie_name}}
+                            <span class="fw-lighter h3">{{movie.release_year}}</span>
+                        </h2>
+                        <p class="p-0 m-0 opacity-75">{{ movie.movie_genre }}</p>
+                        <hr>
+                        <strong class="movie-info pb-3"> Budget </strong> -
+                        <span class="text-bg-info p-2 rounded text-light fw-semibold"> $ {{movie.movie_budget}}</span>
+                    </div>
+
+                    <div class="mt-4">
+
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock content %}

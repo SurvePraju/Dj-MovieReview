@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Genres{% endblock title %}
+
+
+{% block content %}
+
+<div class="container w-75 mt-5 mx-auto">
+    <div class="row">
+
+
+        {% if genres %}
+        {% for genre in genres %}
+        <div class="col-3 m-auto mb-4">
+            <div class="genre-container img-hover-zoom">
+                <img src="{{ genre.genre_images.url }}" alt="" class="genre-poster">
+                <div class="bottom-left ms-3 text-bg-dark rounded p-1 px-2 mb-3 fw-bolder">{{genre.genre_name}}</div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+
+    </div>
+</div>
+
+
+{% endblock content %}

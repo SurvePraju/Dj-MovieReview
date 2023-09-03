@@ -21,8 +21,20 @@ class AddMovies(View):
 
 class MoviesPage(View):
     def get(self, request):
-        movie_genre = Genres.objects.all()
+        movie_genre = Genres.objects.all().order_by("genre_name").values()
         languages = Language.objects.all()
         movies = Movies.objects.all()
 
         return render(request, "movies.html", {"movie_genres": movie_genre, "movies": movies, "movie_language": languages})
+
+
+class SelectMovie(View):
+    def get(self, request, id):
+        movie_data = Movies.objects.get(id=id)
+        return render(request, "selected_movies.html", {"movie": movie_data})
+
+
+class GenrePage(View):
+    def get(self, request):
+        genres = Genres.objects.all()
+        return render(request, "genres.html", {"genres": genres})
