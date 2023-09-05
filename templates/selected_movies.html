@@ -93,10 +93,37 @@
                                     real world, they'll have to go on the most dangerous adventure of their lives,
                                     discover what Alan Parrish left 20 years ago, and change the way they think about
                                     themselves - or they'll be stuck in the game forever.</div>
-                                <div class="tab-pane fade" id="cast-tab-pane" role="tabpanel" aria-labelledby="cast-tab"
-                                    tabindex="0">Cast</div>
+                                <div class="tab-pane pb-5 mb-5 me-3 pt-3 fade" id="cast-tab-pane" role="tabpanel"
+                                    aria-labelledby="cast-tab" tabindex="0">
+                                    <div>
+                                        <h4>Cast</h4>
+                                        {% if cast %}
+                                        <div class="list-group">
+                                            <div class="row">
+                                                {% for person in cast %}
+                                                <div class="col-6">
+                                                    <a href=""
+                                                        class="list-group-item text-decoration-none bg-light d-flex border-0 align-content-center">
+                                                        <div class=""><img src="{{ person.actors_images.url }}"
+                                                                style="height: 50px; width: 50px; border-radius: 50%;"
+                                                                alt=""></div>
+                                                        <div class="mt-2 ms-3 cast opacity-50">{{ person.actors_name }}
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                        <div class="opacity-50">Cast Not Found</div>
+                                        {% endif %}
+                                    </div>
+
+                                </div>
                                 <div class="tab-pane fade" id="trailer-tab-pane" role="tabpanel"
-                                    aria-labelledby="trailer-tab" tabindex="0">Trailers</div>
+                                    aria-labelledby="trailer-tab" tabindex="0">Trailers
+
+                                </div>
                             </div>
                         </div>
                     </div>
