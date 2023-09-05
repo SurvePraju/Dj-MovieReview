@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 
@@ -49,3 +49,8 @@ class Movies(models.Model):
     def movie_budget_string(self):
 
         return format(self.movie_budget, ",")
+
+
+class WatchList(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    movies = models.ForeignKey(Movies, on_delete=models.CASCADE)

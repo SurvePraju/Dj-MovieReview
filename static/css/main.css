@@ -17,6 +17,10 @@ input[type="password"] {
     width: 100px;
 }
 
+.dropdown-menu {
+    position: absolute;
+    left: 0;
+}
 
 #btn-back-to-top {
     position: fixed;
