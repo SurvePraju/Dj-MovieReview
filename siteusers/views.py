@@ -64,10 +64,10 @@ def user_logout(request):
 
 
 class Profile(View):
-    def get(self, request):
+    def get(self, request, active):
         form = UserRegistrationForm()
         # form = ChangePassword()
-        return render(request, "profile.html", {"form": form})
+        return render(request, "profile.html", {"form": form, "active": active})
 
     def post(self, request):
         return render(request, "profile.html")

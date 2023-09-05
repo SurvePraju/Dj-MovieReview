@@ -30,7 +30,7 @@ class MoviesPage(View):
 
 class SelectMovie(View):
     def get(self, request, id):
-        movie_data = Movies.objects.get(id=id)
+        movie_data = Movies.objects.get(movie_name=id)
         return render(request, "selected_movies.html", {"movie": movie_data})
 
 

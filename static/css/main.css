@@ -21,8 +21,22 @@ input[type="password"] {
 
 .search-box {
     width: 400px;
+    padding: 10px;
+    color: black;
+    background-color: rgb(37, 34, 54);
 }
 
+.search-box::placeholder {
+    color: white;
+    opacity: 0.3;
+}
+
+.search-box:focus {
+    background-color: rgb(37, 34, 54);
+    color: white;
+    opacity: 1;
+    border: 1px solid white;
+}
 
 .small-text-custom {
     font-size: 8px;
@@ -89,9 +103,9 @@ input[type="password"] {
 
 .movie-cover {
     position: relative;
-    width: 80vw;
-
-    margin-left: 0;
+    /* right: 0; */
+    top: 11%;
+    left: 0;
 }
 
 

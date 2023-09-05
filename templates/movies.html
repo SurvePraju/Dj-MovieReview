@@ -68,10 +68,10 @@ Movies
                 {% for movie in movies %}
 
                 <div class="col-3 mb-4">
-                    <a href="{% url 'selected_movie' movie.id %}" class="text-decoration-none ">
+                    <a href="{% url 'selected_movie' movie.movie_name %}" class="text-decoration-none ">
                         <div class="card shadow movie-banner select">
-                            <img src="{{ movie.movie_poster.url }}" alt="" class="card-img-top movie-poster-image">
-                            <div class="card-body p-1 movie-banner-info">
+                            <img src="{{ movie.movie_poster.url }}" alt="{{movie.movie_name}}" class="card-img-top movie-poster-image">
+                            <div class="card-body p-1 movie-info">
                                 <div class="card-title mb-0">{{movie.movie_name}}</div>
                                 <div class="card-text movie-text">{{movie.movie_language}}|<svg
                                         xmlns="http://www.w3.org/2000/svg" width="16" height="10" fill="currentColor"

@@ -45,3 +45,7 @@ class Movies(models.Model):
 
     def release_year(self):
         return self.movie_release.strftime("%Y")
+
+    def movie_budget_string(self):
+
+        return format(self.movie_budget, ",")
