@@ -4,14 +4,16 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.views import View
 from .forms import *
+from movies.models import WatchList, Movies
 
 # Create your views here.
 
 
 class Home(View):
     def get(self, request):
-
-        return render(request, "home.html")
+        movies = Movies.objects.all()
+        context = {"movies": movies}
+        return render(request, "home.html", context)
 
     def post(self, request):
         pass
@@ -66,8 +68,17 @@ def user_logout(request):
 class Profile(View):
     def get(self, request, active):
         form = UserRegistrationForm()
+        watchlist = WatchList.objects.filter(
+            user=request.user).values_list("movies", flat=True)
+        movieslist = []
+        for item in list(watchlist):
+            movies = Movies.objects.get(id=item)
+            movieslist.append(movies)
+
         # form = ChangePassword()
-        return render(request, "profile.html", {"form": form, "active": active})
+        # watchlist = Movies.objects.filter(watchlist=request.user.id)
+
+        return render(request, "profile.html", {"form": form, "active": active, "movies": movieslist})
 
     def post(self, request):
         return render(request, "profile.html")

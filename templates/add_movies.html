@@ -3,8 +3,7 @@
     {{form}}
     <button type="submit">Submit</button>
 </form>
-
-{% for data in data %}
-{{data.movie_genre}}
-{{data.movie_cast}}
+{% comment %} {{data}} {% endcomment %}
+{% for dta in data %}
+{{dta}}
 {% endfor %}

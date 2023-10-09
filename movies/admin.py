@@ -9,4 +9,8 @@ admin.site.register(Movies)
 admin.site.register(Language)
 admin.site.register(People)
 admin.site.register(Genres)
-admin.site.register(WatchList)
+
+
+@admin.register(WatchList)
+class AdminWatchList(admin.ModelAdmin):
+    list_display = ["user", "movies"]

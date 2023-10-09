@@ -50,6 +50,14 @@ class Movies(models.Model):
 
         return format(self.movie_budget, ",")
 
+    def movie_genre_string(self):
+        genres = "/ ".join([movie.genre_name for movie in self.movie_genre.all()])
+        return genres
+
+    def movie_cast_string(self):
+        casts = ", ".join([name.actors_name for name in self.movie_cast.all()])
+        return casts
+
 
 class WatchList(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
