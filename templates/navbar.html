@@ -111,9 +111,9 @@
                 </div>
             </button>
             <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item" href="{% url 'profile' 1 %}">Profile</a></li>
-                <li><a class="dropdown-item" href="{% url 'profile' 2 %}">Watchlist</a></li>
-                <li><a class="dropdown-item" href="{% url 'profile' 3 %}">Account Settings</a></li>
+                <li><form  method="GET" action="{% url 'profile' %}"><button type="submit" class="dropdown-item"  value="1" id="active" name="active">Profile</button></form></li>
+                <li><form  method="GET" action="{% url 'profile' %}"><button class="dropdown-item"  value="2" id="active" name="active">Watchlist</button></form></li>
+                <li><form  method="GET" action="{% url 'profile' %}"><button class="dropdown-item"  value="3" id="active" name="active">Account Settings</button></form></li>
                 <hr class="my-0 py-0">
                 <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a></li>
             </ul>

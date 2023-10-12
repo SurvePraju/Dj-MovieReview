@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}{{user.first_name}} {{user.last_name}}{% endblock title %}
+{% block title %}{% if user.first_name %}{{user.first_name}} {{user.last_name}}{% else %}Superuser{% endif %}{% endblock title %}
 
 
 
@@ -101,7 +101,7 @@
                                         <img src="{{ movie.movie_poster.url }}" alt="{{movie.movie_name}}"
                                             class="card-img-top movie-poster-image">
                                         <div class="card-body p-1 movie-info">
-                                            
+
                                             <div class="card-title mb-0 ">{{movie.movie_name}}</div>
                                             <div class="card-text movie-text">{{movie.movie_language}}|<svg
                                                     xmlns="http://www.w3.org/2000/svg" width="16" height="10"
@@ -122,6 +122,15 @@
                     <div class="tab-pane fade show {% if active == 3 %}active{% endif %}" id="list-setting"
                         role="tabpanel" aria-labelledby="list-setting-list">
                         <h3 class="ms-2 mb-3">Account Settings</h3>
+                        <div class="container">
+
+                            <h4 class="fw-bold">Change Password</h4>
+                            <form action="{% url 'profile' %}" method="POST">
+                                {% csrf_token %}
+                                {{change_password_form.as_p}}
+                                <button type="submit" class="btn btn-primary">Change Password</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

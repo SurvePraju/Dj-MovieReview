@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+
+
+{% block title %}{{genre.genre_name}}{% endblock title %}
+
+
+
+{% block content %}
+
+<div class="container mt-5 text-light">
+    <h1 class="my-4 ms-5">{{genre.genre_name}}</h1>
+    <hr>
+    <div class="row movie-font">
+        {% if movies %}
+        {% for movie in movies %}
+
+        <div class="col-3 mb-4">
+            <a href="{% url 'selected_movie' movie.movie_name %}" class="text-decoration-none ">
+                <div class="card shadow another-movie-banner select">
+                    <img src="{{ movie.movie_poster.url }}" alt="{{movie.movie_name}}"
+                        class="card-img-top movie-poster-image">
+                    <div class="card-body p-1 movie-info">
+                        <div class="card-title mb-0">{{movie.movie_name}}</div>
+                        <div class="card-text movie-text">{{movie.movie_language}}|<svg
+                                xmlns="http://www.w3.org/2000/svg" width="16" height="10" fill="currentColor"
+                                class="bi bi-calendar" viewBox="0 0 16 16">
+                                <path
+                                    d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                            </svg>{{movie.release_year}}</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+        {% else %}
+        <hr>
+        <h4 class="text-center">No Movies Found</h4>
+        {% endif %}
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock content %}

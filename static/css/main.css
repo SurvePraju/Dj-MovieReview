@@ -13,9 +13,10 @@
      text-align: left;
      padding-top: 200px;
      margin-top: 200px;
-     padding-bottom: 150px;
+     padding-bottom: 100px;
      padding-left: 50px;
  }
+
 
 
  input[type="text"] {
@@ -24,7 +25,7 @@
  }
 
 
- input[type="password"] {
+ input[type="password"]:not(.normal-input) {
      width: 49%;
      display: inline;
  }
@@ -121,6 +122,11 @@
  .movie-banner {
      /* height: 380px; */
      height: 345px;
+ }
+
+ .another-movie-banner {
+     height: 360px;
+     width: 220px;
  }
 
  .movie-poster-image {
@@ -223,3 +229,11 @@
      text-align: center;
      color: white;
  }
+
+
+ /* 
+ .people-image-ls {
+
+     max-height: 250px;
+     width: 250px;
+ } */

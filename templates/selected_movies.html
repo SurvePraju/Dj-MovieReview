@@ -109,31 +109,19 @@
                                         {% if cast %}
                                         <div class="list-group">
                                             <div class="row">
-                                                {% if cast|length > 1 %}
                                                 {% for person in cast %}
                                                 <div class="col-6">
-                                                    <a href=""
+                                                    <a href="{% url 'selected_actor' person.id %}"
                                                         class="list-group-item text-decoration-none bg-light d-flex border-0 align-content-center">
                                                         <div class=""><img src="{{ person.actors_images.url }}"
                                                                 style="height: 50px; width: 50px; border-radius: 50%;"
-                                                                alt=""></div>
+                                                                alt="{{person.actors_name}}"></div>
                                                         <div class="mt-2 ms-3 cast opacity-50">{{ person.actors_name }}
                                                         </div>
                                                     </a>
                                                 </div>
                                                 {% endfor %}
-                                                {% else %}
-                                                <div class="col-6">
-                                                    <a href=""
-                                                        class="list-group-item text-decoration-none bg-light d-flex border-0 align-content-center">
-                                                        <div class=""><img src="{{ cast.actors_images.url }}"
-                                                                style="height: 50px; width: 50px; border-radius: 50%;"
-                                                                alt=""></div>
-                                                        <div class="mt-2 ms-3 cast opacity-50">{{ cast.actors_name }}
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                {% endif %}
+                                                
 
                                             </div>
                                         </div>

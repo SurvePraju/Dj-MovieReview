@@ -40,6 +40,13 @@ class UserLoginForm(AuthenticationForm):
 
 
 class ChangePassword(PasswordChangeForm):
+    old_password = forms.CharField(label="Old Password", max_length=20,
+                                   widget=forms.PasswordInput(attrs={"class": "form-control mb-3 normal-input"}))
+    new_password1 = forms.CharField(
+        label="New Password", max_length=20, widget=forms.PasswordInput(attrs={"class": "form-control mb-3 normal-input"}))
+    new_password2 = forms.CharField(label="Re-enter Password", max_length=20,
+                                    widget=forms.PasswordInput(attrs={"class": "form-control normal-input"}))
+
     class Meta:
         model = User
-        fields = ["password1", "password2"]
+        fields = ["old_password", "new_password1", "new_password2"]

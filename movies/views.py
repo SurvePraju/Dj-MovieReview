@@ -53,9 +53,10 @@ class SelectMovie(View):
         movie_data = Movies.objects.get(movie_name=id)
         check = WatchList.objects.filter(
             movies_id=movie_data.id, user=request.user).first()
-        # cast=Movies.objects.get(movie_cast)
-        cast = Movies.objects.filter(movie_name=id)
-        return render(request, "selected_movies.html", {"movie": movie_data, "cast": movie_data.movie_cast, "check": check})
+        # cast = Movies.objects.get("movie_cast")
+        cast = People.objects.filter(id__in=Movies.objects.filter(
+            movie_name=id).values("movie_cast"))
+        return render(request, "selected_movies.html", {"movie": movie_data, "cast": cast, "check": check})
 
 
 class GenrePage(View):
@@ -66,6 +67,12 @@ class GenrePage(View):
             genres = None
             # return None
         return render(request, "genres.html", {"genres": genres})
+    
+class SelectedGenre(View):
+    def get(self,request,id):
+        genre=Genres.objects.get(id=id)
+        movies=Movies.objects.filter(movie_genre=id)
+        return render(request,"genre_movies.html",{"genre":genre,"movies":movies})
 
 
 class AddWatchlist(View):
@@ -89,3 +96,10 @@ class ActorsPage(View):
     def get(self, request):
         people = People.objects.all()
         return render(request, "people.html", {"people": people})
+
+
+class Actors(View):
+    def get(self, request, id):
+        actor = People.objects.get(id=id)
+        movies = Movies.objects.filter(movie_cast=id)
+        return render(request, "actor.html", {"actor": actor, "movies": movies})

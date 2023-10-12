@@ -1,1 +1,33 @@
-{{people}}
+{% extends "base.html" %}
+
+
+{% block title %}Actors{% endblock title %}
+
+
+{% block content %}
+
+<div class="row d-flex justify-content-around mt-4">
+
+
+
+    {% for person in people %}
+    <div class="col-sm-3 ">
+        <a href="{% url 'selected_actor' person.id %}">
+            <div class="actors card">
+                <img src="{{person.actors_images.url}}" alt="" class="people-image-ls card-img-top">
+                <div class="actors-fig bg-light card-body text-center">
+                    <span class="card-text text-center">{{person.actors_name}}</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+
+
+
+</div>
+
+
+
+
+{% endblock content %}
