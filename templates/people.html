@@ -6,25 +6,43 @@
 
 {% block content %}
 
-<div class="row d-flex justify-content-around mt-4">
+<div class="container mt-5 mx-aut text-center bg-light w-100 border rounded d-flex">
+    <div class="w-100 text-start h4 my-3 pt-1">Search Actor</div>
+    <form action="#" method="" class="flex-shrink-1 input-group my-3">
+        {% csrf_token %}
+   
+        <input type="search" name="actor" id="actor" placeholder="Search by Actor's Name" class="form-control rounded-start"
+            style="width: 300px;">
+        <button type="button" class="btn btn-primary border border-dark px-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+          </svg></button>
+    </form>
+</div>
+
+<div class="container">
+    <div class="row d-flex justify-content-around mt-4">
 
 
 
-    {% for person in people %}
-    <div class="col-sm-3 ">
-        <a href="{% url 'selected_actor' person.id %}">
-            <div class="actors card">
-                <img src="{{person.actors_images.url}}" alt="" class="people-image-ls card-img-top">
-                <div class="actors-fig bg-light card-body text-center">
-                    <span class="card-text text-center">{{person.actors_name}}</span>
+
+
+        {% for person in people %}
+        <div class="col-3 mb-4">
+            <a href="{% url 'selected_actor' person.id %}" class="text-decoration-none">
+                <div class="actors card">
+                    <img src="{{person.actors_images.url}}" alt="" class="people-image-ls card-img-top">
+                    <div class="actors-fig bg-light card-body text-center  border rounded">
+                        <span class="card-text text-center">{{person.actors_name}}</span>
+                    </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
+
+        {% endfor %}
+
+
+
     </div>
-    {% endfor %}
-
-
-
 </div>
 
 

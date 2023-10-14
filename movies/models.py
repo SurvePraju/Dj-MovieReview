@@ -62,3 +62,14 @@ class Movies(models.Model):
 class WatchList(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     movies = models.ForeignKey(Movies, on_delete=models.CASCADE)
+
+
+class ReviewAndRate(models.Model):
+    rating_choices = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+    viewer = models.ForeignKey(User, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movies, on_delete=models.CASCADE)
+    review = models.CharField(max_length=1000, default=None)
+    rating = models.IntegerField(choices=rating_choices, default=1)
+
+    def __str__(self):
+        return f"{self.id}"

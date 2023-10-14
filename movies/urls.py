@@ -12,4 +12,5 @@ urlpatterns = [
     path("actors/", ActorsPage.as_view(), name="actors"),
     path("actor/<int:id>/", Actors.as_view(), name="selected_actor"),
     path("genres/<int:id>/", SelectedGenre.as_view(), name="selected_genre"),
+    path("add-review/<int:id>/", Reviews.as_view(), name="add_review"),
 ]

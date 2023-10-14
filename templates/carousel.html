@@ -6,7 +6,7 @@
 
     {% for movie in movies %}
     <div class="carousel-item caro-home caro-buttons active" data-bs-interval="2000">
-      <img src="{{movie.movie_images.url}}" class="d-block w-100" alt="{{movie.movie_name}}">
+      <img src="{{movie.movie_images.url}}" class="d-block w-100 caroimg" alt="{{movie.movie_name}}" style="">
       <!-- Display Movie Details On the Carousel Images -->
       <div class="bottom-left carousel-text">
         #{{movie.id}} <br>
