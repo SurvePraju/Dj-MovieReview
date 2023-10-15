@@ -73,3 +73,9 @@ class ReviewAndRate(models.Model):
 
     def __str__(self):
         return f"{self.id}"
+
+    def return_list(self):
+        return [i for i in range(self.rating)]
+
+    def length(self):
+        return [i for i in range(5)]

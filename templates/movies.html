@@ -9,60 +9,80 @@ Movies
 
 {% block content %}
 
-<div class="container-fluid mt-5">
+{% if user.is_staff %}
+<div class="container mt-2  d-flex justify-content-end"><button class="btn btn-light">Add Movie</button></div>
+<hr class="text-light mt-2">
+{% endif %}
+<div class="container-fluid {% if user.is_staff %}{% else %}mt-5{% endif %} ">
     <div class="row">
-        <div class=" bg-light col-3 shadow rounded me-3 ms-5 h-25 pb-3">
-            <p class="lead h4 pt-2 pb-2">Filter By</p>
-            <hr class="m-0 mb-3">
-            <div class="accordion" id="accordionExample">
-                <div class="accordion-item border-0">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button m-0 px-2 py-1" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            <h5 class="pt-2 border-0">Genre</h5>
-                        </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            {% if movie_genres %}
-                            {% for genre in movie_genres %}
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheck{{genre.id}}">
-                                <label class="form-check-label" for="flexCheck{{genre.id}}">
-                                    {{ genre.genre_name }}
-                                </label>
+        <div class=" bg-dark col-3 shadow rounded me-3 ms-5 h-25 pb-3">
+            <form action="{% url 'filtered_movies' %}" method="POST">
+                <div class="d-flex justify-content-between text-light">
+                    <p class="lead h4 pt-3 ">Filter By</p><button class="btn btn-dark m-2" type="submit"><svg
+                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-funnel" viewBox="0 0 16 16">
+                            <path
+                                d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z" />
+                        </svg></button>
+                </div>
+                <hr class="m-0 mb-3 text-light">
+                <div class="accordion " id="accordionExample">
+                    <div class="accordion-item border-0 bg-dark text-light">
+                        <h2 class="accordion-header text-light">
+                            <button class="accordion-button bg-dark text-light m-0 px-2 py-1" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <h5 class="pt-2 border-0">Genre</h5>
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show "
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body ">
+                                {% if movie_genres %}
+
+                                {% csrf_token %}
+                                {% for genre in movie_genres %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="{{genre.id}}"
+                                        id="flexCheck{{genre.id}}" name="genre">
+                                    <label class="form-check-label" for="flexCheck{{genre.id}}">
+                                        {{ genre.genre_name }}
+                                    </label>
+                                </div>
+                                {% endfor %}
+
+                                {% endif %}
                             </div>
-                            {% endfor %}
-                            {% endif %}
                         </div>
                     </div>
-                </div>
-                <div class="accordion-item border-0">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button mb-3 m-0 px-2 py-1" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collaspeTwo" aria-expanded="true" aria-controls="collapseTwo">
-                            <h5 class="pt-2 border-0">Language</h5>
-                        </button>
-                    </h2>
-                    <div id="collaspeTwo" class="accordion-collapse show collapse" data-bs-parent="#accordionExample">
-                        <div class="accordian-body">
-                            {% for language in movie_language %}
-                            <div class="form-check ms-4">
-                                <input class="form-check-input ps-2" type="checkbox" value=""
-                                    id="flexChecklan{{language.id}}">
-                                <label class="form-check-label ps-2" for="flexChecklan{{language.id}}">
-                                    {{ language.language }}
+                    <div class="accordion-item border-0 bg-dark text-light">
+                        <h2 class="accordion-header ">
+                            <button class="accordion-button mb-3 m-0 px-2 py-1 bg-dark text-light" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collaspeTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                <h5 class="pt-2 border-0">Language</h5>
+                            </button>
+                        </h2>
+                        <div id="collaspeTwo" class="accordion-collapse show collapse bg-dark"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordian-body">
+                                {% for language in movie_language %}
+                                <div class="form-check ms-4">
+                                    <input class="form-check-input ps-2" type="checkbox" value=""
+                                        id="flexChecklan{{language.id}}" name="language">
+                                    <label class="form-check-label ps-2" for="flexChecklan{{language.id}}">
+                                        {{ language.language }}
 
-                                </label>
+                                    </label>
+                                </div>
+                                {% endfor %}
                             </div>
-                            {% endfor %}
                         </div>
                     </div>
-                </div>
-            </div>
 
+                </div>
+            </form>
         </div>
         <div class="col-8 ms-3">
+
             <div class="row movie-font">
                 {% if movies %}
                 {% for movie in movies %}
@@ -70,7 +90,8 @@ Movies
                 <div class="col-3 mb-4">
                     <a href="{% url 'selected_movie' movie.movie_name %}" class="text-decoration-none ">
                         <div class="card shadow movie-banner select">
-                            <img src="{{ movie.movie_poster.url }}" alt="{{movie.movie_name}}" class="card-img-top movie-poster-image">
+                            <img src="{{ movie.movie_poster.url }}" alt="{{movie.movie_name}}"
+                                class="card-img-top movie-poster-image">
                             <div class="card-body p-1 movie-info">
                                 <div class="card-title mb-0">{{movie.movie_name}}</div>
                                 <div class="card-text movie-text">{{movie.movie_language}}|<svg
@@ -86,7 +107,7 @@ Movies
                 {% endfor %}
                 {% else %}
                 <hr>
-                <h4 class="text-center">No Movies Found</h4>
+                <h4 class="text-center text-light opacity-50">No Movies Found</h4>
                 {% endif %}
             </div>
         </div>

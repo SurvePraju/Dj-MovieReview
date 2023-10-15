@@ -231,12 +231,13 @@
  }
 
 
- /* 
+
  .people-image-ls {
 
      max-height: 250px;
-     width: 250px;
- } */
+
+ }
+
  textarea {
      resize: none;
      height: 90px;
@@ -250,4 +251,12 @@
      -webkit-box-shadow: 12px 29px 81px 0px rgba(0, 0, 0, 0.75);
      -moz-box-shadow: 12px 29px 81px 0px rgba(0, 0, 0, 0.75);
      box-shadow: 12px 29px 81px 0px rgba(0, 0, 0, 0.75);
+ }
+
+ .blank-stars {
+     position: absolute;
+ }
+
+ .filled-stars {
+     position: relative;
  }

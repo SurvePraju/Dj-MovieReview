@@ -1,5 +1,5 @@
 from django import forms
-from .models import Movies, Genres, ReviewAndRate
+from .models import Movies, Genres, ReviewAndRate, People
 
 
 class AddMoviesForm(forms.ModelForm):
@@ -26,4 +26,30 @@ class ReviewAndRateForm(forms.ModelForm):
             "review": forms.Textarea(attrs={"class": "form-control"}),
             "rating": forms.Select(attrs={"class": "form-control", "style": "width: 50%;"})
 
+        }
+
+
+class AddGenresForm(forms.ModelForm):
+    class Meta:
+        model = Genres
+        fields = ["genre_name", "genre_images"]
+        labels = {
+            "genre_name": "", "genre_images": ""
+        }
+        widgets = {
+            "genre_name": forms.TextInput(attrs={"class": "form-control mb-3 normal-input", "placeholder": "Genre Name"}),
+            "genre_images": forms.FileInput(attrs={"class": "form-control"})
+        }
+
+
+class AddActorsForm(forms.ModelForm):
+    class Meta:
+        model = People
+        fields = ["actors_name", "actors_images"]
+        labels = {
+            "actors_name": "", "actors_images": ""
+        }
+        widgets = {
+            "actors_name": forms.TextInput(attrs={"class": "form-control mb-3 normal-input", "placeholder": "Actors Name"}),
+            "actors_images": forms.FileInput(attrs={"class": "form-control"})
         }

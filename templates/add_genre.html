@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Add Genre{% endblock title %}
+
+
+
+
+{% block content %}
+<div class="mx-auto">
+    <div class="container p-5 m-5 bg-dark w-75 h-100 mx-auto">
+        <h3 class="text-light mb-4 text-center">Add Genres</h3>
+        <form action="{% url 'add_genre' %}" method="POST" class="text-light" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <div class="text-center">{{add_genre.as_p}}
+
+
+                <button type="submit" class="btn btn-primary mt-3">Add Genres</button>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+
+
+{% endblock content %}

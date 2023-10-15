@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from django.views import View
-from .forms import AddMoviesForm, ReviewAndRateForm
+from .forms import *
 from .models import *
+import os
 
 
 class AddMovies(View):
@@ -39,11 +40,87 @@ class AddMovies(View):
         return render(request, "add_movies.html", {"data": movie})
 
 
+class AddGenres(View):
+    def get(self, request):
+        add_genres_form = AddGenresForm()
+        return render(request, "add_genre.html", {"add_genre": add_genres_form})
+
+    def post(self, request):
+        name = request.POST["genre_name"]
+        genre_data = AddGenresForm(request.POST, request.FILES)
+        if genre_data.is_valid():
+            genre_data.save()
+            messages.success(request, f"{name} Genres has been Added")
+        else:
+            messages.warning(
+                request, f"{name} Already Exists !!")
+        return redirect("genres")
+
+
+class Addactors(View):
+    def get(self, request):
+        add_genres_form = AddActorsForm()
+        return render(request, "add_actor.html", {"add_actors": add_genres_form})
+
+    def post(self, request):
+        name = request.POST["actors_name"]
+        actor_data = AddActorsForm(request.POST, request.FILES)
+        if actor_data.is_valid():
+            actor_data.save()
+            messages.success(request, f"{name} Actors has been Added")
+        else:
+            messages.warning(
+                request, f"{name} Already Exists !!")
+        return redirect("actors")
+
+
+def delete_genre(request, id):
+
+    genre = Genres.objects.get(id=id)
+    os.remove(genre.genre_images.path)
+    genre.delete()
+    messages.success(request, f"{genre} Deleted Succesfully")
+    return redirect("genres")
+
+
+def delete_actor(request, id):
+
+    actor = People.objects.get(id=id)
+    if actor is not None:
+        os.remove(actor.actors_images.path)
+        actor.delete()
+        messages.success(request, f"Actor has been Deleted/")
+        return redirect("actors")
+    else:
+        return redirect("home")
+
+
 class MoviesPage(View):
+
     def get(self, request):
         movie_genre = Genres.objects.all().order_by("genre_name").values()
         languages = Language.objects.all()
         movies = Movies.objects.all()
+
+        return render(request, "movies.html", {"movie_genres": movie_genre, "movies": movies, "movie_language": languages})
+
+
+class FilterMovies(View):
+    def post(self, request):
+        selected_genre = request.POST.getlist("genre")
+        language = request.POST.getlist("language")
+        movie_genre = Genres.objects.all().order_by("genre_name").values()
+        languages = Language.objects.all()
+        if language:
+            if selected_genre is None:
+
+                movies = Movies.objects.filter(movie_language=language)
+            else:
+                movies = Movies.objects.filter(movie_language=language).filter(
+                    movie_genre__in=selected_genre).distinct()
+        else:
+            movies = Movies.objects.filter(
+                movie_genre__in=selected_genre).distinct()
 
         return render(request, "movies.html", {"movie_genres": movie_genre, "movies": movies, "movie_language": languages})
 
