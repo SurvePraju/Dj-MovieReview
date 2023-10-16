@@ -14,15 +14,6 @@ class AddMovies(View):
 
     def post(self, request):
 
-        movie_name = request.POST["movie_name"]
-        movie_poster = request.FILES["movie_poster"]
-        movie_images = request.FILES["movie_images"]
-        movie_plot = request.POST["movie_plot"]
-        movie_length = request.POST["movie_length"]
-        movie_release = request.POST["movie_release"]
-        movie_director = request.POST["movie_director"]
-        movie_writer = request.POST["movie_writer"]
-        movie_budget = request.POST["movie_budget"]
         movie_genre = [genre for genre in request.POST.get("movie_genre")]
         movie_cast = request.POST.getlist("movie_cast")
         movie_language = request.POST["movie_language"]

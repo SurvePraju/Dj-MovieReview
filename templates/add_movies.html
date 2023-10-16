@@ -6,11 +6,86 @@
 
 
 {% block content %}
-<form action="{% url 'add_movies' %}" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form}}
-    <button type="submit" class="btn  btn-primary">Submit</button>
-</form>
+<div class="container bg-dark mt-5 p-5 w-75 h-100 mx-auto rounded shadow">
+    <h3 class="text-center text-light">Add Movie</h3>
+
+    <form action="{% url 'add_movies' %}" method="POST" enctype="multipart/form-data " class="text-light">
+        {% load widget_tweaks %}
+        {% csrf_token %}
+        <!-- Movie Name -->
+        <div class="mb-3"><label for="movie_name" class="form-label">Movie Name</label>
+            {% render_field form.movie_name class="form-control normal-text" placeholder="Movie Name" type="text" %}
+        </div>
+        <!-- Movie Plot -->
+        <div class="mb-3"><label for="movie_plot" class="form-label">Movie Plot</label>
+            {% render_field form.movie_plot class="form-control" placeholder="Movie Plot" type="text" %}
+        </div>
+        <!-- MOvie Cast and Genre -->
+        <div class="row">
+            <div class="col">
+                <div class="mb-3"><label for="movie_genre" class="form-label">Movie Genre</label>
+                    {% render_field form.movie_genre class="form-control" placeholder="Movie Genre" type="textt" %}
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3"><label for="movie_cast" class="form-label">Movie Cast</label>
+                    {% render_field form.movie_cast class="form-control" placeholder="Movie Cast" type="select" %}
+                </div>
+            </div>
+        </div>
+        <!-- Movie Images -->
+        <div class="row">
+            <div class="col">
+                <div class="mb-3"><label for="movie_poster" class="form-label">Movie Poster</label>
+                    {% render_field form.movie_poster class="form-control" placeholder="Movie Plot" type="file" %}
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3"><label for="movie_images" class="form-label">Movie Images</label>
+                    {% render_field form.movie_images class="form-control" placeholder="Movie Plot" type="file" %}
+                </div>
+            </div>
+        </div>
+        
+       <!-- MOvie Director and Writer -->
+        <div class="row">
+            <div class="col">
+                <div class="mb-3"><label for="movie_director" class="form-label">Movie Director</label>
+                    {% render_field form.movie_director class="form-control normal-text" placeholder="Movie Director" type="text" %}
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3"><label for="movie_writer" class="form-label">Movie Writer</label>
+                    {% render_field form.movie_writer class="form-control normal-text" placeholder="Movie Writer" type="text" %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="mb-3"><label for="movie_release" class="form-label">Movie Release</label>
+                    {% render_field form.movie_release class="form-control normal-text" placeholder="Movie Release" type="date" %}
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="mb-3"><label for="movie_budget" class="form-label">Movie Budget</label>
+                    {% render_field form.movie_budget class="form-control normal-text" placeholder="Movie Budget" type="number" %}
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="mb-3"><label for="movie_length" class="form-label">Movie Length</label>
+                    {% render_field form.movie_length class="form-control normal-text" placeholder="Movie Length" type="number" %}
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="mb-3"><label for="movie_language" class="form-label">Movie Language</label>
+                    {% render_field form.movie_language class="form-control normal-text" placeholder="Movie Language" type="text" %}
+                </div>
+            </div>
+        </div>
+        <div class="text-center d-grid gap-2 mt-4"><button type="submit" class="btn  btn-primary btn-lg">Save</button></div>
+
+    </form>
+</div>
 {% comment %} {{data}} {% endcomment %}
 {% for dta in data %}
 {{dta}}

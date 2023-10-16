@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from .youtubeapi import search_videos
 # Create your models here.
 
 
@@ -57,6 +58,10 @@ class Movies(models.Model):
     def movie_cast_string(self):
         casts = ", ".join([name.actors_name for name in self.movie_cast.all()])
         return casts
+
+    def youtube_search(self):
+        video_id = search_videos(self.movie_name)
+        return f"https://www.youtube.com/embed/{video_id}?rel=0"
 
 
 class WatchList(models.Model):

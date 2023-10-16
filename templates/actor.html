@@ -23,9 +23,12 @@
         <div class="col-9">
             <div class="d-flex justify-content-between">
                 <h3 class="ms-5">Movies</h3>
+                {% if user.is_staff %}
                 <a href="{% url 'delete_actor' actor.id %}" class="mt-3"><button class="btn btn-danger">Delete Actor
                     </button></a>
+                {% endif %}
             </div>
+            <hr class="text-light mt-0">
             <div class="row">
                 {% if movies %}
                 {% for movie in movies %}

@@ -10,7 +10,7 @@ Movies
 {% block content %}
 
 {% if user.is_staff %}
-<div class="container mt-2  d-flex justify-content-end"><button class="btn btn-light">Add Movie</button></div>
+<div class="container mt-2  d-flex justify-content-end"><a href="{% url 'add_movies' %}"><button class="btn btn-light">Add Movie</button></a></div>
 <hr class="text-light mt-2">
 {% endif %}
 <div class="container-fluid {% if user.is_staff %}{% else %}mt-5{% endif %} ">
