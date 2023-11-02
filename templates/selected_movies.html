@@ -10,8 +10,20 @@
 
 
 <div class="container">
-    <div class="movie-cover" style="width:90vw;">
+    <div class="movie-cover">
         <img src="{{ movie.movie_images.url }}" alt="" class="w-100" style=" height:450px;">
+        <div class="top-right text-light">
+            <div class="container text-center bg-light rounded text-dark p-0 " style="width:90px;">
+                <div class="d-flex mx-auto"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="darkyellow" class="bi bi-hand-thumbs-up-fill mt-2 mx-2" viewBox="0 0 16 16">
+  <path d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"/>
+</svg>
+                <div class="h3">{{rating}}<span class="fs-6">/5</span></div></div>
+                <hr class="p-0 m-0">
+                <div class="opacity-50 ">{{reviews_rating|length}}</div>
+                
+                
+            </div>
+        </div>
         <div class="movie-cover-overlap">
 
             <div class="row">
@@ -49,7 +61,7 @@
                             </h2>
                             {% if user.is_staff %}
                             <div>
-                                <button type="button" class="btn btn-light"><svg xmlns="http://www.w3.org/2000/svg"
+                                <button type="button" class="btn btn-light "><svg xmlns="http://www.w3.org/2000/svg"
                                         width="20" height="20" fill="currentColor" class="bi bi-pencil-square"
                                         viewBox="0 0 16 16">
                                         <path
@@ -57,7 +69,7 @@
                                         <path fill-rule="evenodd"
                                             d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                     </svg></button>
-                                <button type="button" class="btn btn-light me-3"><svg xmlns="http://www.w3.org/2000/svg"
+                                <button type="button" class="btn btn-light me-3 text-danger"><svg xmlns="http://www.w3.org/2000/svg"
                                         width="20" height="20" fill="currentColor" class="bi bi-trash"
                                         viewBox="0 0 16 16">
                                         <path
@@ -139,6 +151,7 @@
                                         <hr>
                                         <div class="review">
                                             <div class="row">
+                                                {% if reviews_rating %}
                                                 {% for review in reviews_rating %}
 
                                                 <div class="col-2">{% load static %}
@@ -180,6 +193,9 @@
 
 
                                                 {% endfor %}
+                                                {% else %}
+                                                <div class="text-center opacity-50">No Reviews</div>
+                                                {% endif %}
                                             </div>
                                         </div>
 

@@ -10,6 +10,7 @@ urlpatterns = [
     path("movies-list/", MoviesPage.as_view(), name="movies"),
     path("movies-list-filtered/", FilterMovies.as_view(), name="filtered_movies"),
     path("movie-<str:id>/", SelectMovie.as_view(), name="selected_movie"),
+    path("search/", Search.as_view(), name="search"),
     path("genres/", GenrePage.as_view(), name="genres"),
     path("add-watchlist/<int:movie_id>",
          AddWatchlist.as_view(), name="add_watchlist"),

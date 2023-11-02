@@ -6,7 +6,7 @@
 
 {% block content %}
 {% if user.is_staff %}
-<div class="container mt-2  d-flex justify-content-end"><a href="{% url 'add_actor' %}"><button
+<div class="container mt-2  d-flex justify-content-end mb-2"><a href="{% url 'add_actor' %}"><button
             class="btn btn-light">Add Actors</button></a>
 </div>
 <hr class="text-light mt-2">
@@ -14,12 +14,12 @@
 <div
     class="container {% if user.is_staff %}mt-2{% else %}mt-5{% endif %} mx-aut text-center bg-dark w-100 border rounded d-flex">
     <div class="w-100 text-start h4 my-3 pt-1 text-light">Search Actor</div>
-    <form action="#" method="" class="flex-shrink-1 input-group my-3">
+    <form action="{% url 'actors' %}" method="POST" class="flex-shrink-1 input-group my-3">
         {% csrf_token %}
 
         <input type="search" name="actor" id="actor" placeholder="Search by Actor's Name"
             class="form-control bg-dark opacity-25 text-light rounded-start" style="width: 300px;">
-        <button type="button" class="btn btn-primary border border-dark px-2"><svg xmlns="http://www.w3.org/2000/svg"
+        <button type="submit" class="btn btn-primary border border-dark px-2"><svg xmlns="http://www.w3.org/2000/svg"
                 width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                 <path
                     d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
@@ -34,6 +34,7 @@
 
 
 
+        {% if people %}
         {% for person in people %}
         <div class="col-3 mb-4">
             <a href="{% url 'selected_actor' person.id %}" class="text-decoration-none">
@@ -47,7 +48,12 @@
         </div>
 
         {% endfor %}
-
+        {% else %}
+        <h3 class="opacity-50 text-light text-center my-5">No Actors Found with {{keyword}}....</h3>
+        {% if user.is_staff %}
+        <a href="{% url 'add_actor' %}" class="text-center text-light my-5">Can't find the Actor, Would you like to add New Actor ?</a>
+        {% endif %}
+        {% endif %}
 
 
     </div>

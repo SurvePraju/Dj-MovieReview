@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+
+
+{% block title %}Search Results{% endblock title %}
+
+
+
+
+{% block content %}
+
+<h2 class="opacity-50 text-light text-center mb-5">
+    You Searched for {{keyword}}....
+</h2>
+
+
+<div class="text-center text-light">Total Results Found {{movies|length}}</div>
+
+<div class="container bg-dark text-light bg-gradient w-75">
+
+
+    {% if movies %}
+    {% for movie in movies %}
+
+    <div class="row p-0 select-hover">
+        <div class="col-2 p-2">
+            <img src="{{movie.movie_poster.url}}" alt="{{movie.movie_name}}" style="max-height: 230px;">
+
+        </div>
+        <div class="col-10 pt-4">
+            <a href="{% url 'selected_movie' movie.movie_name %}" class="text-decoration-none text-light">
+                <h2>{{movie.movie_name}}</h2>
+            </a>
+            <h3 class="fs-3 font-monospace opacity-75">{{movie.release_year}} </h3>
+            <h3 class="fs-4 font-monospace opacity-75"> {{movie.movie_runtime}} </h3>
+            {{movie.rate}}
+        </div>
+    </div>
+
+    {% endfor %}
+    {% else %}
+   <div class="text-center mt-5 py-2">
+    <a href="{% url 'add_movies' %}" class="text-center text-light"> Would You Like To Add The Movies ?</a>
+   </div>
+    {% endif %}
+
+</div>
+{% if movies|length == 0 %}
+<div class="div h-100"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> </div>
+{% endif %}
+
+<br><br><br><br>
+<br><br>
+
+
+
+
+
+
+
+{% endblock content %}

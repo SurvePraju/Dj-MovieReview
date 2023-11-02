@@ -1,3 +1,4 @@
+from django.db.models import Avg
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
@@ -13,22 +14,27 @@ class AddMovies(View):
         return render(request, "add_movies.html", {"form": form})
 
     def post(self, request):
-
-        movie_genre = [genre for genre in request.POST.get("movie_genre")]
+        movie_image = request.FILES["movie_images"]
+        movie_poster = request.FILES.get("movie_poster")
+        movie_genre = request.POST.getlist("movie_genre")
         movie_cast = request.POST.getlist("movie_cast")
+        movie_release = request.POST["movie_release"]
+        movie_writer = request.POST["movie_writer"]
+        movie_budget = request.POST["movie_budget"]
+        movie_name = request.POST["movie_name"]
+        movie_length = request.POST["movie_length"]
+        movie_director = request.POST["movie_director"]
+        movie_plot = request.POST["movie_plot"]
         movie_language = request.POST["movie_language"]
-        movie = [
-            movie_genre,
-            movie_cast,
-            movie_language]
-        # if data.is_valid():
-        #     data.save()
-        # genre = request.POST["movie_genre"]
-        # cast = request.POST["movie_cast"]
+        language_instance = Language.objects.get(pk=movie_language)
 
-        # data.movie_genre.add(genre)
-        # data.movie_cast.add(cast)
-        return render(request, "add_movies.html", {"data": movie})
+        movie = Movies(movie_name=movie_name, movie_plot=movie_plot,
+                       movie_release=movie_release, movie_writer=movie_writer, movie_images=movie_image, movie_poster=movie_poster,
+                       movie_budget=movie_budget, movie_length=movie_length, movie_director=movie_director, movie_language=language_instance)
+        movie.save()
+        movie.movie_genre.set(movie_genre)
+        movie.movie_cast.set(movie_cast)
+        return redirect("movies")
 
 
 class AddGenres(View):
@@ -126,7 +132,29 @@ class SelectMovie(View):
             movie_name=id).values("movie_cast"))
         rate_review_form = ReviewAndRateForm()
         reviews_rating = ReviewAndRate.objects.filter(movie=movie_data.id)
-        return render(request, "selected_movies.html", {"movie": movie_data, "cast": cast, "check": check, "rate_review_form": rate_review_form, "reviews_rating": reviews_rating})
+        if reviews_rating:
+            avg_rating = reviews_rating.aggregate(
+                avg_rating=Avg('rating'))['avg_rating']
+        else:
+            avg_rating = 0
+
+        return render(request, "selected_movies.html", {"movie": movie_data, "cast": cast, "check": check, "rate_review_form": rate_review_form, "reviews_rating": reviews_rating, "rating": round(avg_rating, 1)})
+
+# Search Movies
+
+
+class Search(View):
+    def post(self, request):
+        keyword = request.POST["keyword"]
+
+        try:
+            movies = Movies.objects.filter(movie_name__icontains=keyword)
+            # rating_avg = movies.annotate(
+            # avg_rating=Avg("rating__value")).values("movie_name", "avg_rating")
+
+        except:
+            rating_avg = None
+        return render(request, "search_results.html", {'keyword': keyword, "movies": movies})
 
 
 class GenrePage(View):
@@ -167,6 +195,11 @@ class ActorsPage(View):
     def get(self, request):
         people = People.objects.all()
         return render(request, "people.html", {"people": people})
+
+    def post(self, request):
+        keyword = request.POST["actor"]
+        people = People.objects.filter(actors_name__contains=keyword)
+        return render(request, "people.html", {"people": people, "keyword": keyword})
 
 
 class Actors(View):

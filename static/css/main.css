@@ -19,11 +19,25 @@
 
 
 
- input[type="text"]:not(.normal-text) {
+ input[type="text"]:not(.normal-text):not(#movie-form) {
      width: 49%;
      display: inline;
  }
 
+ input[type="text"]:only-child(.fifty-text) {
+     width: 50%;
+     display: inline;
+ }
+
+ input[type="file"] {
+     width: 40%;
+     display: inline;
+
+ }
+
+ #movie-form .form-label {
+     display: inline;
+ }
 
  input[type="password"]:not(.normal-input) {
      width: 49%;
@@ -149,7 +163,7 @@
  .movie-cover-overlap {
      position: relative;
 
-     left: 5%;
+     left: 3.5%;
      top: -100px;
  }
 
@@ -180,6 +194,14 @@
      bottom: 8px;
      right: 8px;
      font-size: 20px;
+ }
+
+ .top-right {
+     position: absolute;
+     top: 8px;
+     right: 8px;
+     font-size: 20px;
+     left: 87%;
  }
 
  .img-hover-zoom {
@@ -259,4 +281,9 @@
 
  .filled-stars {
      position: relative;
+ }
+
+
+ .select-hover:hover {
+     opacity: 40px;
  }

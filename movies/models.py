@@ -21,6 +21,7 @@ class People(models.Model):
 
 
 class Language(models.Model):
+
     language = models.CharField(max_length=50, unique=True, blank=False)
 
     def __str__(self) -> str:
@@ -51,6 +52,9 @@ class Movies(models.Model):
 
         return format(self.movie_budget, ",")
 
+    def movie_runtime(self):
+        return f"{self.movie_length// 60}h{self.movie_length % 60}m"
+
     def movie_genre_string(self):
         genres = "/ ".join([movie.genre_name for movie in self.movie_genre.all()])
         return genres
@@ -62,6 +66,9 @@ class Movies(models.Model):
     def youtube_search(self):
         video_id = search_videos(self.movie_name)
         return f"https://www.youtube.com/embed/{video_id}?rel=0"
+
+    def rating_mo(self):
+        return Movies.objects.all()
 
 
 class WatchList(models.Model):
