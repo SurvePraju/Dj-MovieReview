@@ -17,7 +17,10 @@ urlpatterns = [
     path("actors/", ActorsPage.as_view(), name="actors"),
     path("actor/<int:id>/", Actors.as_view(), name="selected_actor"),
     path("genres/<int:id>/", SelectedGenre.as_view(), name="selected_genre"),
+    path("delete-movie/<int:id>/", delete_movie, name="delete_movie"),
     path("delete-genre/<int:id>/", delete_genre, name="delete_genre"),
     path("delete-actor/<int:id>/", delete_actor, name="delete_actor"),
     path("add-review/<int:id>/", Reviews.as_view(), name="add_review"),
+    path("verify-movie/<int:id>/", Verify.as_view(), name="verify_movie"),
+
 ]

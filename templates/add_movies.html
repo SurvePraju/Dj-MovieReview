@@ -6,17 +6,25 @@
 
 
 {% block content %}
-<div class="container bg-dark mt-5 p-5 w-75 h-100 mx-auto rounded shadow">
-    <h3 class="text-center text-light">Add Movie</h3>
+<div class="container w-75 bg-dark mt-5 p-5 mx-auto rounded shadow ">
+    <h3 class="text-center text-light">Add Movie
+        <hr>
+    </h3>
 
-    <form action="{% url 'add_movies' %}" method="POST" enctype="multipart/form-data" class="text-light">
-        
-        {% csrf_token %}
 
-        {{ form|crispy }}
-        
-        <button type="submit" class="btn  btn-primary btn-lg">Save</button>
-    </form>
+    <div class="row form-bg rounded overflow-auto">
+        <div class="col-6"></div>
+        <div class="col-6 bg-blur h-50">
+            <form action="{% url 'add_movies' %}" method="POST" enctype="multipart/form-data" class="text-light">
+
+                {% csrf_token %}
+
+                {{ form|crispy }}
+
+                <button type="submit" class="btn btn-primary btn-lg mb-2">Save</button>
+            </form>
+        </div>
+    </div>
 </div>
 
 

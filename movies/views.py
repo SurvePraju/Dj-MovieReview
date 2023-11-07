@@ -2,7 +2,9 @@ from django.db.models import Avg
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.views import View
+from django.shortcuts import get_object_or_404
 from .forms import *
 from .models import *
 import os
@@ -27,14 +29,22 @@ class AddMovies(View):
         movie_plot = request.POST["movie_plot"]
         movie_language = request.POST["movie_language"]
         language_instance = Language.objects.get(pk=movie_language)
+        reviewer = request.user
+        if request.user.is_staff:
+            movie_verified = True
+        else:
+            movie_verified = False
 
         movie = Movies(movie_name=movie_name, movie_plot=movie_plot,
                        movie_release=movie_release, movie_writer=movie_writer, movie_images=movie_image, movie_poster=movie_poster,
-                       movie_budget=movie_budget, movie_length=movie_length, movie_director=movie_director, movie_language=language_instance)
+                       movie_budget=movie_budget, movie_length=movie_length, movie_director=movie_director, movie_language=language_instance, movie_verified=movie_verified, movie_uploaded_by=reviewer)
         movie.save()
         movie.movie_genre.set(movie_genre)
         movie.movie_cast.set(movie_cast)
-        return redirect("movies")
+        if request.user.is_staff:
+            return redirect("movies")
+
+        return render(request, "base.html")
 
 
 class AddGenres(View):
@@ -71,6 +81,24 @@ class Addactors(View):
         return redirect("actors")
 
 
+class Verify(View):
+    def get(self, request, id):
+        movie_id = id
+        movie = Movies.objects.get(id=movie_id)
+        movie.movie_verified = True
+        movie.save()
+        return redirect("movies")
+
+
+def delete_movie(request, id):
+    movie = Movies.objects.get(id=id)
+    os.remove(movie.movie_images.path)
+    os.remove(movie.movie_poster.path)
+    movie.delete()
+    messages.success(request, "Movie has been deleted.")
+    return redirect("home")
+
+
 def delete_genre(request, id):
 
     genre = Genres.objects.get(id=id)
@@ -97,7 +125,7 @@ class MoviesPage(View):
     def get(self, request):
         movie_genre = Genres.objects.all().order_by("genre_name").values()
         languages = Language.objects.all()
-        movies = Movies.objects.all()
+        movies = Movies.objects.filter(movie_verified=True)
 
         return render(request, "movies.html", {"movie_genres": movie_genre, "movies": movies, "movie_language": languages})
 
@@ -105,40 +133,48 @@ class MoviesPage(View):
 class FilterMovies(View):
     def post(self, request):
         selected_genre = request.POST.getlist("genre")
-        language = request.POST.getlist("language")
+        language = request.POST.get("language")
+
         movie_genre = Genres.objects.all().order_by("genre_name").values()
         languages = Language.objects.all()
         if language:
             if selected_genre is None:
 
-                movies = Movies.objects.filter(movie_language=language)
+                movies = Movies.objects.filter(
+                    movie_language=language).filter(movie_verified=True)
             else:
                 movies = Movies.objects.filter(movie_language=language).filter(
                     movie_genre__in=selected_genre).distinct()
         else:
             movies = Movies.objects.filter(
-                movie_genre__in=selected_genre).distinct()
+                movie_genre__in=selected_genre).distinct().filter(movie_verified=True)
 
         return render(request, "movies.html", {"movie_genres": movie_genre, "movies": movies, "movie_language": languages})
 
 
 class SelectMovie(View):
     def get(self, request, id):
-        movie_data = Movies.objects.get(movie_name=id)
-        check = WatchList.objects.filter(
-            movies_id=movie_data.id, user=request.user).first()
-        # cast = Movies.objects.get("movie_cast")
-        cast = People.objects.filter(id__in=Movies.objects.filter(
-            movie_name=id).values("movie_cast"))
-        rate_review_form = ReviewAndRateForm()
-        reviews_rating = ReviewAndRate.objects.filter(movie=movie_data.id)
-        if reviews_rating:
-            avg_rating = reviews_rating.aggregate(
-                avg_rating=Avg('rating'))['avg_rating']
-        else:
-            avg_rating = 0
+        try:
+            movie_data = get_object_or_404(Movies, movie_name=id)
 
-        return render(request, "selected_movies.html", {"movie": movie_data, "cast": cast, "check": check, "rate_review_form": rate_review_form, "reviews_rating": reviews_rating, "rating": round(avg_rating, 1)})
+            check = WatchList.objects.filter(
+                movies_id=movie_data.id, user=request.user).first()
+            # cast = Movies.objects.get("movie_cast")
+            cast = People.objects.filter(id__in=Movies.objects.filter(
+                movie_name=id).values("movie_cast"))
+            rate_review_form = ReviewAndRateForm()
+            reviews_rating = ReviewAndRate.objects.filter(movie=movie_data.id)
+            if reviews_rating:
+                avg_rating = reviews_rating.aggregate(
+                    avg_rating=Avg('rating'))['avg_rating']
+            else:
+                avg_rating = 0
+            context = {"movie": movie_data, "cast": cast, "check": check, "rate_review_form": rate_review_form,
+                       "reviews_rating": reviews_rating, "rating": round(avg_rating, 1)}
+        except:
+            return render(request, "base.html", {"error": "error"})
+
+        return render(request, "selected_movies.html", context)
 
 # Search Movies
 
@@ -148,7 +184,8 @@ class Search(View):
         keyword = request.POST["keyword"]
 
         try:
-            movies = Movies.objects.filter(movie_name__icontains=keyword)
+            movies = Movies.objects.filter(
+                movie_name__icontains=keyword).filter(movie_verified=True)
             # rating_avg = movies.annotate(
             # avg_rating=Avg("rating__value")).values("movie_name", "avg_rating")
 
@@ -170,7 +207,8 @@ class GenrePage(View):
 class SelectedGenre(View):
     def get(self, request, id):
         genre = Genres.objects.get(id=id)
-        movies = Movies.objects.filter(movie_genre=id)
+        movies = Movies.objects.filter(
+            movie_genre=id).filter(movie_verified=True)
         return render(request, "genre_movies.html", {"genre": genre, "movies": movies})
 
 
@@ -193,8 +231,12 @@ class AddWatchlist(View):
 
 class ActorsPage(View):
     def get(self, request):
-        people = People.objects.all()
-        return render(request, "people.html", {"people": people})
+        peoples = People.objects.all().order_by("actors_name")
+        paginator = Paginator(peoples, 8)
+        page_number = request.GET.get("page")
+        people = paginator.get_page(page_number)
+        numbers = people.paginator.num_pages*"a"
+        return render(request, "people.html", {"people": people, "numbers": numbers})
 
     def post(self, request):
         keyword = request.POST["actor"]
@@ -205,7 +247,8 @@ class ActorsPage(View):
 class Actors(View):
     def get(self, request, id):
         actor = People.objects.get(id=id)
-        movies = Movies.objects.filter(movie_cast=id)
+        movies = Movies.objects.filter(
+            movie_cast=id).filter(movie_verified=True)
         return render(request, "actor.html", {"actor": actor, "movies": movies})
 
 

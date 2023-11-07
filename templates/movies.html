@@ -13,7 +13,7 @@ Movies
 <div class="container mt-2  d-flex justify-content-end"><a href="{% url 'add_movies' %}"><button class="btn btn-light">Add Movie</button></a></div>
 <hr class="text-light mt-2">
 {% endif %}
-<div class="container-fluid {% if user.is_staff %}{% else %}mt-5{% endif %} ">
+<div class="container-fluid mt-5">
     <div class="row">
         <div class=" bg-dark col-3 shadow rounded me-3 ms-5 h-25 pb-3">
             <form action="{% url 'filtered_movies' %}" method="POST">
@@ -34,7 +34,7 @@ Movies
                                 <h5 class="pt-2 border-0">Genre</h5>
                             </button>
                         </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show "
+                        <div id="collapseOne" class="accordion-collapse collapse show"
                             data-bs-parent="#accordionExample">
                             <div class="accordion-body ">
                                 {% if movie_genres %}
@@ -61,7 +61,7 @@ Movies
                                 <h5 class="pt-2 border-0">Language</h5>
                             </button>
                         </h2>
-                        <div id="collaspeTwo" class="accordion-collapse show collapse bg-dark"
+                        <div id="collaspeTwo" class="accordion-collapse collapse bg-dark"
                             data-bs-parent="#accordionExample">
                             <div class="accordian-body">
                                 {% for language in movie_language %}

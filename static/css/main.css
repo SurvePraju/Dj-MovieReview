@@ -30,7 +30,7 @@
  }
 
  input[type="file"] {
-     width: 40%;
+     width: 60%;
      display: inline;
 
  }
@@ -287,3 +287,63 @@
  .select-hover:hover {
      opacity: 40px;
  }
+
+
+ .form-bg {
+     background-image: url("/static/images/form-bg.jpg");
+     /* background-color: aqua; */
+     background-repeat: no-repeat;
+     background-size: contain;
+ }
+
+ .bg-blur {
+     background-color: rgba(0, 0, 0, 0.4);
+ }
+
+
+ .unverified_movies {
+     /* right: 0; */
+     min-width: 400px;
+
+     max-height: 600px;
+     overflow-y: auto;
+
+ }
+
+ .movie-home-banner {
+     height: 280px;
+ }
+
+ .movie-banner-home {
+     width: 230px;
+     height: 350px;
+ }
+
+ .big-letter {
+     font-size: 150px;
+ }
+
+ .tiny-text {
+     font-size: 13px;
+ }
+
+
+ /* .univerified-movies {
+     position: relative;
+     display: inline-block;
+
+ }
+
+ .univerified-movies-list {
+     display: none;
+     position: absolute;
+     background-color: #f9f9f9;
+     min-width: 160px;
+     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+     padding: 12px 16px;
+     z-index: 1;
+ }
+
+ .univerified-movies:hover .univerified-movies-list {
+     display: block;
+ } */

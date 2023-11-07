@@ -11,6 +11,39 @@
     {% include 'carousel.html' %}
 </div>
 
+<div class="container text-light ">
+    <div class="d-flex justify-content-between mb-3">
+        <h2>Recently Added</h2>
+        <a href="{% url 'movies' %}" class="text-light fs-6">View all</a>
+
+    </div>
+    <div class="row ms-4">
+        {% for movie in latest %}
+
+        <div class="col-3 mb-4"><div class="card shadow movie-banner-home movie-banner select">
+            <a href="{% url 'selected_movie' movie.movie_name %}" class="text-decoration-none text-dark">
+                
+                    <img src="{{ movie.movie_poster.url }}" alt="{{movie.movie_name}}"
+                        class="card-img-top movie-home-banner">
+                    <div class="card-body p-1 movie-info">
+                        <div class="card-title mb-0">{{movie.movie_name}}</div>
+                        <div class="card-text movie-text">{{movie.movie_language}}|<svg
+                                xmlns="http://www.w3.org/2000/svg" width="16" height="10" fill="currentColor"
+                                class="bi bi-calendar" viewBox="0 0 16 16">
+                                <path
+                                    d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                            </svg>{{movie.release_year}}</div>
+                    </div>
+                </a></div>
+            
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
 
 
 

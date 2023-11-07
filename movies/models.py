@@ -41,6 +41,10 @@ class Movies(models.Model):
     movie_genre = models.ManyToManyField(Genres)
     movie_cast = models.ManyToManyField(People)
     movie_language = models.ForeignKey(Language, on_delete=models.CASCADE)
+    movie_verified = models.BooleanField(default=False)
+    movie_date_uploaded = models.DateField(auto_now=True)
+    movie_uploaded_by = models.ForeignKey(
+        User, null=True, on_delete=models.SET_NULL)
 
     def __str__(self) -> str:
         return self.movie_name
@@ -67,8 +71,8 @@ class Movies(models.Model):
         video_id = search_videos(self.movie_name)
         return f"https://www.youtube.com/embed/{video_id}?rel=0"
 
-    def rating_mo(self):
-        return Movies.objects.all()
+    # def rating_mo(self):
+    #     return Movies.objects.all()
 
 
 class WatchList(models.Model):

@@ -3,17 +3,26 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.contrib import messages
+from django.db.models import Avg
 from django.views import View
 from .forms import *
-from movies.models import WatchList, Movies
+from movies.models import WatchList, Movies, Genres
 
 # Create your views here.
 
 
 class Home(View):
     def get(self, request):
-        movies = Movies.objects.all()
-        context = {"movies": movies}
+        movies = Movies.objects.filter(
+            movie_verified=True)
+        unverified_movies = Movies.objects.filter(movie_verified=False)
+        latest = movies.order_by("-movie_date_uploaded")
+        genres = Genres.objects.all()
+        avg_rating_movie = Movies.objects.annotate(
+            avg_ratings=Avg("reviewandrate__rating")).order_by("-avg_ratings")
+
+        context = {"movies": movies[:10], "unverified_movies": unverified_movies,
+                   "latest": latest[:8], "genres": genres, "avg": avg_rating_movie}
         return render(request, "home.html", context)
 
     def post(self, request):

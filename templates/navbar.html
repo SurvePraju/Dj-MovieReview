@@ -40,30 +40,30 @@
                             </svg> Adminstration</a>
 
                     </li>
-                    <div class="collapse" id="collapseAdmin">
+                    <div class="collapse bg-light rounded text-dark p-2" id="collapseAdmin">
                         <li class="nav-item">
-                            <a class="nav-link navbar-hover" href="{% url 'add_movies' %}"><svg
+                            <a class="nav-link navbar-hover text-dark" href="{% url 'add_movies' %}"><svg
                                     xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-film me-1" viewBox="0 0 16 16">
                                     <path
                                         d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z" />
-                                </svg>Add Movies*</a>
+                                </svg>Add Movies</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link navbar-hover" href="{% url 'add_genre' %}"><svg
+                            <a class="nav-link navbar-hover text-dark" href="{% url 'add_genre' %}"><svg
                                     xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-film me-1" viewBox="0 0 16 16">
                                     <path
                                         d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z" />
-                                </svg>Add Genres*</a>
+                                </svg>Add Genres</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link navbar-hover" href="{% url 'add_actor' %}"><svg
+                            <a class="nav-link navbar-hover text-dark" href="{% url 'add_actor' %}"><svg
                                     xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-film me-1" viewBox="0 0 16 16">
                                     <path
                                         d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z" />
-                                </svg>Add Actors *</a>
+                                </svg> &nbsp; Add Actors</a>
                         </li>
                     </div>
                     {% endif %}
@@ -152,12 +152,30 @@
 
         {% if user.is_authenticated %}
         {% if user.is_staff %}
-        <button class="btn btn-dark align-middle position-relative"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-inbox-fill text-light" viewBox="0 0 16 16">
+        <div class="dropdown">
+        <button type="button" data-bs-toggle="dropdown"  class="btn btn-dark align-middle position-relative univerified-movies dropdown-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-inbox-fill text-light" viewBox="0 0 16 16">
             <path d="M4.98 4a.5.5 0 0 0-.39.188L1.54 8H6a.5.5 0 0 1 .5.5 1.5 1.5 0 1 0 3 0A.5.5 0 0 1 10 8h4.46l-3.05-3.812A.5.5 0 0 0 11.02 4H4.98zm-1.17-.437A1.5 1.5 0 0 1 4.98 3h6.04a1.5 1.5 0 0 1 1.17.563l3.7 4.625a.5.5 0 0 1 .106.374l-.39 3.124A1.5 1.5 0 0 1 14.117 13H1.883a1.5 1.5 0 0 1-1.489-1.314l-.39-3.124a.5.5 0 0 1 .106-.374l3.7-4.625z"/>
-          </svg><span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            {% comment %} Number of Movies Request {% endcomment %}234
-            <span class="visually-hidden">unread messages</span>
-          </span></button>
+          </svg>{% if unverified_movies %}
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            {{unverified_movies|length}} <span class="visually-hidden">UnVerified Movies</span>
+          </span>
+            {% endif %}</button>
+            
+        
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-lg-end unverified_movies">
+                <div class="bg-dark py-3 px-4">New Movies Requests</div>
+                {% if unverified_movies %}
+                {% for movie in unverified_movies %}
+                <li><a class="dropdown-item py-3" href="{% url 'selected_movie' movie.movie_name %}">{{movie.movie_uploaded_by}} is requesting to upload {{movie.movie_name}} on date {{movie.movie_date_uploaded}}</a></li>
+                
+                {% endfor %}
+                {% else %}
+                <div class="text-center">No New request</div>
+                {% endif %}
+              </ul>
+              
+             
+            </div>
         {% endif %}
         <div class="btn-group d-flex">
             <button type="button" class="btn btn-dark rounded align-middle" data-bs-toggle="dropdown">
@@ -168,7 +186,7 @@
                     </div>
                 </div>
             </button>
-            <ul class="dropdown-menu dropdown-menu-dark">
+            <ul class="dropdown-menu dropdown-menu-dark  dropdown-menu-lg-end">
                 <li>
                     <form method="GET" action="{% url 'profile' %}"><button type="submit" class="dropdown-item"
                             value="1" id="active" name="active">Profile</button></form>
@@ -197,3 +215,6 @@
         {% endif %}
     </div>
 </nav>
+
+
+
