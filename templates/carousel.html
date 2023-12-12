@@ -4,13 +4,13 @@
 <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
 
-    {% for movie in movies %}
-    <div class="carousel-item caro-home caro-buttons active" data-bs-interval="2000">
+    {% for movie in trending %}
+    <div class="carousel-item caro-home caro-buttons active" data-bs-interval="3000">
       <img src="{{movie.movie_images.url}}" class="d-block w-100 caroimg " alt="{{movie.movie_name}}">
       <!-- Display Movie Details On the Carousel Images -->
       <div class="bottom-left carousel-text bg-blur">
         <div class="tiny-text">Trending</div>
-        #{{movie.id}} <br>
+        #{{forloop.counter}} <br>
         <strong class="movie-info fs-2">{{movie.movie_name}}</strong>
         <br>
 
@@ -59,8 +59,8 @@
 
   <div id="owl-demo" class="owl-carousel owl-theme ps-4">
     {% for movie in avg %}
-    
-    <div class="item"><img src="{{movie.movie_poster.url}}" alt="{{movie.movie_name}}"
+    {% comment %} <span class="text-light h4 me-4">{{forloop.counter }}</span> {% endcomment %}
+    <div class="item me-2"><img src="{{movie.movie_poster.url}}" alt="{{movie.movie_name}}"
         style="max-height: 300px; width: 220px;" class="">
     </div>
 

@@ -6,7 +6,7 @@
 
 
 {% block content %}
-<div class="container w-75 bg-dark mt-5 p-5 mx-auto rounded shadow ">
+<div class="container w-75 bg-dark mt-5 p-5 mx-auto rounded shadow">
     <h3 class="text-center text-light">Add Movie
         <hr>
     </h3>
@@ -14,14 +14,16 @@
 
     <div class="row form-bg rounded overflow-auto">
         <div class="col-6"></div>
-        <div class="col-6 bg-blur h-50">
-            <form action="{% url 'add_movies' %}" method="POST" enctype="multipart/form-data" class="text-light">
+        <div class="col-6 h-50 pe-0">
+            <form action="{% url 'add_movies' %}" method="POST" enctype="multipart/form-data"
+                class="text-light px-3 bg-blur pyx-3">
 
                 {% csrf_token %}
 
                 {{ form|crispy }}
-
-                <button type="submit" class="btn btn-primary btn-lg mb-2">Save</button>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg mb-2">Save</button>
+                </div>
             </form>
         </div>
     </div>

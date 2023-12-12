@@ -1,16 +1,22 @@
+from rest_framework import status
+from .serializer import MovieSerializer
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from django.db.models import Avg
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.core.mail import EmailMessage
 from django.views import View
 from django.shortcuts import get_object_or_404
 from .forms import *
 from .models import *
+from siteusers.views import LoginRequired
 import os
 
 
-class AddMovies(View):
+class AddMovies(LoginRequired, View):
     def get(self, request):
         form = AddMoviesForm()
         return render(request, "add_movies.html", {"form": form})
@@ -43,11 +49,40 @@ class AddMovies(View):
         movie.movie_cast.set(movie_cast)
         if request.user.is_staff:
             return redirect("movies")
+        else:
+            subject = 'Movie Review Aplication'
+            message = f'Reviewer {request.user.username} .\n Thank You for contributing by adding a Movies on Movie Review Application, \n It is much Appreciated.  '
+            from_email = 'noreply@gmail.com'
+            recipient_list = [f'{request.user.email}']
 
-        return render(request, "base.html")
+            email = EmailMessage(subject, message, from_email, recipient_list)
+            email.send(fail_silently=False)
+            return render(request, "base.html")
 
 
-class AddGenres(View):
+class UpdateMovie(View):
+    def get(self, request, id):
+        movie = Movies.objects.get(id=id)
+        movie_update_form = AddMoviesForm(instance=movie)
+        return render(request, "update_movie.html", {"form": movie_update_form, "movie": movie})
+
+    def post(self, request, id):
+        movie = Movies.objects.get(id=id)
+        movie_data = AddMoviesForm(request.POST, request.FILES, instance=movie)
+
+        if movie_data.is_valid():
+
+            movie_data.save()
+
+            movie.movie_cast.set(movie_data.cleaned_data['movie_cast'])
+            movie.movie_genre.set(movie_data.cleaned_data['movie_genre'])
+
+            return redirect("selected_movie", id=movie)
+
+        return redirect("home")
+
+
+class AddGenres(LoginRequired, View):
     def get(self, request):
         add_genres_form = AddGenresForm()
         return render(request, "add_genre.html", {"add_genre": add_genres_form})
@@ -64,7 +99,7 @@ class AddGenres(View):
         return redirect("genres")
 
 
-class Addactors(View):
+class Addactors(LoginRequired, View):
     def get(self, request):
         add_genres_form = AddActorsForm()
         return render(request, "add_actor.html", {"add_actors": add_genres_form})
@@ -81,7 +116,7 @@ class Addactors(View):
         return redirect("actors")
 
 
-class Verify(View):
+class Verify(LoginRequired, View):
     def get(self, request, id):
         movie_id = id
         movie = Movies.objects.get(id=movie_id)
@@ -120,7 +155,12 @@ def delete_actor(request, id):
         return redirect("home")
 
 
-class MoviesPage(View):
+def delete_review(request, id):
+    ReviewAndRate.objects.get(id=id).delete()
+    return redirect(request.META.get("HTTP_REFERER"))
+
+
+class MoviesPage(LoginRequired, View):
 
     def get(self, request):
         movie_genre = Genres.objects.all().order_by("genre_name").values()
@@ -130,7 +170,7 @@ class MoviesPage(View):
         return render(request, "movies.html", {"movie_genres": movie_genre, "movies": movies, "movie_language": languages})
 
 
-class FilterMovies(View):
+class FilterMovies(LoginRequired, View):
     def post(self, request):
         selected_genre = request.POST.getlist("genre")
         language = request.POST.get("language")
@@ -152,10 +192,12 @@ class FilterMovies(View):
         return render(request, "movies.html", {"movie_genres": movie_genre, "movies": movies, "movie_language": languages})
 
 
-class SelectMovie(View):
+class SelectMovie(LoginRequired, View):
     def get(self, request, id):
         try:
             movie_data = get_object_or_404(Movies, movie_name=id)
+            movie_data.movie_visited = models.F("movie_visited")+1
+            movie_data.save()
 
             check = WatchList.objects.filter(
                 movies_id=movie_data.id, user=request.user).first()
@@ -179,7 +221,7 @@ class SelectMovie(View):
 # Search Movies
 
 
-class Search(View):
+class Search(LoginRequired, View):
     def post(self, request):
         keyword = request.POST["keyword"]
 
@@ -194,17 +236,17 @@ class Search(View):
         return render(request, "search_results.html", {'keyword': keyword, "movies": movies})
 
 
-class GenrePage(View):
+class GenrePage(LoginRequired, View):
     def get(self, request):
         try:
-            genres = Genres.objects.all()
+            genres = Genres.objects.all().order_by("genre_name")
         except:
             genres = None
             # return None
         return render(request, "genres.html", {"genres": genres})
 
 
-class SelectedGenre(View):
+class SelectedGenre(LoginRequired, View):
     def get(self, request, id):
         genre = Genres.objects.get(id=id)
         movies = Movies.objects.filter(
@@ -212,7 +254,7 @@ class SelectedGenre(View):
         return render(request, "genre_movies.html", {"genre": genre, "movies": movies})
 
 
-class AddWatchlist(View):
+class AddWatchlist(LoginRequired, View):
     def post(self, request, movie_id):
 
         data = WatchList.objects.filter(
@@ -229,7 +271,7 @@ class AddWatchlist(View):
         return redirect(request.META.get("HTTP_REFERER"))
 
 
-class ActorsPage(View):
+class ActorsPage(LoginRequired, View):
     def get(self, request):
         peoples = People.objects.all().order_by("actors_name")
         paginator = Paginator(peoples, 8)
@@ -244,7 +286,7 @@ class ActorsPage(View):
         return render(request, "people.html", {"people": people, "keyword": keyword})
 
 
-class Actors(View):
+class Actors(LoginRequired, View):
     def get(self, request, id):
         actor = People.objects.get(id=id)
         movies = Movies.objects.filter(
@@ -258,8 +300,30 @@ class Reviews(View):
         rating_data = request.POST["rating"]
         viewer = request.user
         movie = Movies.objects.get(id=id)
-        save_review = ReviewAndRate(
-            viewer=viewer, rating=rating_data, review=review_data, movie=movie)
-        save_review.save()
-        messages.success(request, "Review Added Succesfully")
-        return redirect(request.META.get("HTTP_REFERER"))
+        try:
+            ReviewAndRate.objects.get(movie=movie, viewer=viewer)
+            messages.warning(
+                request, f"There already exists a Review made by {viewer} for {movie}")
+            return redirect(request.META.get("HTTP_REFERER"))
+        except:
+            save_review = ReviewAndRate(
+                viewer=viewer, rating=rating_data, review=review_data, movie=movie)
+            save_review.save()
+            messages.success(request, "Review Added Succesfully")
+            return redirect(request.META.get("HTTP_REFERER"))
+
+
+# API VIEWS
+
+
+class MoviesAPI(APIView):
+    def get(self, request, keyword):
+
+        movies = Movies.objects.all().filter(movie_name__contains=keyword)
+        serialized = MovieSerializer(
+            movies, many=True, context={"request": request})
+        if serialized:
+
+            return Response(serialized.data, status=status.HTTP_200_OK)
+
+        return Response({"msg": "Not Found"}, status=status.HTTP_404_NOT_FOUND)

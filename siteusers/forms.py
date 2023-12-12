@@ -1,6 +1,7 @@
+from .models import Profile
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -50,3 +51,29 @@ class ChangePassword(PasswordChangeForm):
     class Meta:
         model = User
         fields = ["old_password", "new_password1", "new_password2"]
+
+
+class UpdateUser(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["username", "first_name", "last_name", "email"]
+        widgets = {
+            "first_name": forms.TextInput(attrs={"class": "form-control mb-3 ", "placeholder": "First Name", "colspan": "2"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control col-6", "placeholder": "Last Name"}),
+            "username": forms.TextInput(attrs={"class": "form-control mb-3 exd", "placeholder": "Username", "style": "width:99%;"}),
+            "email": forms.EmailInput(attrs={"class": "form-control mb-3 me-2", "placeholder": "Email", "style": "width:99%;"})
+        }
+        empty = {item: "" for item in fields}
+        labels = empty
+        error_messages = empty
+        help_texts = empty
+
+
+class ProfilePicture(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ["profile_picture"]
+        widgets = {"profile_picture": forms.FileInput(
+            attrs={"class": "form-control mb-3", "style": "width:49%;"})}
+        empty = {item: "" for item in fields}
+        labels = empty

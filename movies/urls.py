@@ -20,7 +20,13 @@ urlpatterns = [
     path("delete-movie/<int:id>/", delete_movie, name="delete_movie"),
     path("delete-genre/<int:id>/", delete_genre, name="delete_genre"),
     path("delete-actor/<int:id>/", delete_actor, name="delete_actor"),
+    path("delete-review/<int:id>/", delete_review, name="delete_review"),
     path("add-review/<int:id>/", Reviews.as_view(), name="add_review"),
     path("verify-movie/<int:id>/", Verify.as_view(), name="verify_movie"),
+    # path(
+    #     "update-movie/", UpdateMovie.as_view(), name="update_movie"),
+    path("update-movie/<int:id>/", UpdateMovie.as_view(), name="update_movie_id"),
+    path("api/search=<str:keyword>/", MoviesAPI.as_view(), name="movies_api"),
+
 
 ]

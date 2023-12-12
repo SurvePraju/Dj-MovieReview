@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from .youtubeapi import search_videos
+from .webscrape import rotten_tomatoes_rating
 # Create your models here.
 
 
@@ -38,16 +39,23 @@ class Movies(models.Model):
     movie_director = models.CharField(max_length=100)
     movie_writer = models.CharField(max_length=190)
     movie_budget = models.PositiveIntegerField()
-    movie_genre = models.ManyToManyField(Genres)
-    movie_cast = models.ManyToManyField(People)
+    movie_genre = models.ManyToManyField(Genres, default=None, blank=True)
+    movie_cast = models.ManyToManyField(People, blank=True)
     movie_language = models.ForeignKey(Language, on_delete=models.CASCADE)
     movie_verified = models.BooleanField(default=False)
-    movie_date_uploaded = models.DateField(auto_now=True)
+    movie_date_uploaded = models.DateTimeField(auto_created=True)
     movie_uploaded_by = models.ForeignKey(
         User, null=True, on_delete=models.SET_NULL)
+    movie_visited = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return self.movie_name
+
+    def formatted_movie_name(self):
+        movie_name = self.movie_name.replace("-", " ").replace(":", " ")
+
+        movie_name = "_".join(movie_name.split())
+        return movie_name
 
     def release_year(self):
         return self.movie_release.strftime("%Y")
@@ -71,8 +79,9 @@ class Movies(models.Model):
         video_id = search_videos(self.movie_name)
         return f"https://www.youtube.com/embed/{video_id}?rel=0"
 
-    # def rating_mo(self):
-    #     return Movies.objects.all()
+    def ratingrottentomatoes(self):
+        rating = rotten_tomatoes_rating(self.movie_name)
+        return rating
 
 
 class WatchList(models.Model):
@@ -86,6 +95,7 @@ class ReviewAndRate(models.Model):
     movie = models.ForeignKey(Movies, on_delete=models.CASCADE)
     review = models.CharField(max_length=1000, default=None)
     rating = models.IntegerField(choices=rating_choices, default=1)
+    date_added = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.id}"

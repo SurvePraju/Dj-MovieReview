@@ -56,20 +56,23 @@
                 <div class="col-8 ms-3">
                     <div class="bg-light shadow-lg rounded-3 ps-3 pt-3 pb-3 mb-5">
                         <div class="d-flex justify-content-between">
-                            <h2 class="fw-bolder">{{movie.movie_name}}
-                                <span class="fw-lighter h3">{{movie.release_year}}</span>
-                            </h2>
-                            {% if user.is_staff %}
-                            <div>
-                                <button type="button" class="btn btn-light "><svg xmlns="http://www.w3.org/2000/svg"
+                            <div class="row">
+                                <div class="col-11"><h2 class="fw-bolder">{{movie.movie_name}}
+                                    <span class="fw-lighter h3">{{movie.release_year}}</span>
+                                </h2></div>
+                            </div>
+                            <div class="col">   
+                                {% if user.is_staff %}
+                            <div class="d-flex justify-content-end">
+                                <a href="{% url 'update_movie_id' movie.id %}" class="btn btn-light"><svg xmlns="http://www.w3.org/2000/svg"
                                         width="20" height="20" fill="currentColor" class="bi bi-pencil-square"
                                         viewBox="0 0 16 16">
                                         <path
                                             d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                         <path fill-rule="evenodd"
                                             d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                    </svg></button>
-                                <button type="button" class="btn btn-light me-3 text-danger" ><svg xmlns="http://www.w3.org/2000/svg"
+                                    </svg></a>
+                                <button type="button" class="btn btn-light me-3 text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><svg xmlns="http://www.w3.org/2000/svg"
                                         width="20" height="20" fill="currentColor" class="bi bi-trash"
                                         viewBox="0 0 16 16">
                                         <path
@@ -79,6 +82,7 @@
                                     </svg></button>
                                     
                             </div>{% endif %}
+                            </div>
                         </div>
 
                         <p class="p-0 m-0 opacity-75">{{movie.movie_genre_string}}</p>
@@ -111,7 +115,7 @@
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link text-dark pb-3" id="summary-tab" data-bs-toggle="tab"
                                         data-bs-target="#summary-tab-pane" type="button" role="tab"
-                                        aria-controls="summary-tab-pane" aria-selected="false">Summary</button>
+                                        aria-controls="summary-tab-pane" aria-selected="false">Plot Summary</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link text-dark pb-3" id="cast-tab" data-bs-toggle="tab"
@@ -122,6 +126,11 @@
                                     <button class="nav-link text-dark pb-3" id="trailer-tab" data-bs-toggle="tab"
                                         data-bs-target="#trailer-tab-pane" type="button" role="tab"
                                         aria-controls="trailer-tab-pane" aria-selected="false">Trailers</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link text-dark pb-3" id="other-tab" data-bs-toggle="tab"
+                                        data-bs-target="#other-tab-pane" type="button" role="tab"
+                                        aria-controls="other-tab-pane" aria-selected="false">Ratings</button>
                                 </li>
 
                             </ul>
@@ -156,14 +165,24 @@
                                                 {% for review in reviews_rating %}
 
                                                 <div class="col-2">{% load static %}
-                                                    <div class="container m-auto pt-3"><img
+                                                    <div class="container m-auto pt-3">
+                                                        {% if review.viewer.profile %}<img
+                                                        src="{{ review.viewer.profile.profile_picture.url }}" width="70px"
+                                                        height="70px" alt="" class="border rounded-circle">{% else %}<img
                                                             src="{% static 'images/icons8-user-100.png' %}" width="70px"
-                                                            height="70px" alt="" class="border rounded-circle"></div>
+                                                            height="70px" alt="" class="border rounded-circle">{% endif %}</div>
                                                 </div>
                                                 <div class="col-10">
                                                     <div class="d-flex justify-content-between position-static">
                                                         <strong class="fs-5 ">{{review.viewer.first_name}}
-                                                            {{review.viewer.last_name}}</strong>
+                                                            {{review.viewer.last_name}}{% if request.user == review.viewer %}<form style="display:inline;" method="POST" action="{% url 'delete_review' review.id %}">{% csrf_token %}<button class="btn btn-light"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                width="20" height="20" fill="currentColor" class="bi bi-trash"
+                                                                viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
+                                                                <path
+                                                                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+                                                            </svg></button></form>{% endif %}</strong>
                                                         <div class="d-inline position-static">
                                                             <div class="blank-stars">{% for i in review.return_list %}<svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                     height="16" fill="currentColor"
@@ -189,7 +208,7 @@
 
                                                         </div>
                                                     </div>
-                                                    <p class="opacity-75 movie-details mt-2">{{review.review}}</p>
+                                                    <p class="opacity-75 movie-details mt-2">{{review.review}}<br>{{review.date_added}}</p>
                                                 </div>
 
 
@@ -207,14 +226,9 @@
 
 
                                 <div class="tab-pane fade opacity-50 mb-5 py-5" id="summary-tab-pane" role="tabpanel"
-                                    aria-labelledby="summary-tab" tabindex="0">Summary <br>Four high
-                                    school kids
-                                    discover an old video game console and are drawn into the game's jungle setting,
-                                    literally becoming the adult avatars they chose. What they discover is that you
-                                    don't just play Jumanji - you must survive it. To beat the game and return to the
-                                    real world, they'll have to go on the most dangerous adventure of their lives,
-                                    discover what Alan Parrish left 20 years ago, and change the way they think about
-                                    themselves - or they'll be stuck in the game forever.</div>
+                                    aria-labelledby="summary-tab" tabindex="0">Summary <br>
+                                    {{movie.movie_plot }}
+                                </div>
                                 <div class="tab-pane pb-5 mb-5 me-3 pt-3 fade" id="cast-tab-pane" role="tabpanel"
                                     aria-labelledby="cast-tab" tabindex="0">
                                     <div>
@@ -246,15 +260,32 @@
                                 <div class="tab-pane fade" id="trailer-tab-pane" role="tabpanel"
                                     aria-labelledby="trailer-tab" tabindex="0">
 
-                                <div class="container pb-3">
+                                    <div class="container pb-3">
                                     Trailers
                                     
-                                    <div class="ratio ratio-16x9 me-2">
+                                        <div class="ratio ratio-16x9 me-2">
                                         <iframe src="{{movie.youtube_search}}"
                                             title="YouTube video" allowfullscreen></iframe>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="tab-pane fade" id="other-tab-pane" role="tabpanel" aria-labelledby="other-tab" tabindex="0">
+                                    <div class="" style="height:350px;">
+                                        <div class="row mt-5">
+                                            <div class="col-6">
+                                                <img src="{% static 'images/rottentomatoeslogo.jpeg' %}" style="width:400px;height:300px;">
+                                            </div>
+                                            
+
+                                            <div class="col-6 text-center align-middle mt-5">
+                                                <div class="review-size fw-bold opacity-75">{% if movie.ratingrottentomatoes == None %}0 {% else %}{{movie.ratingrottentomatoes}}%{% endif %}</div>
+                                                <div class=""><a href="https://www.rottentomatoes.com/m/{{movie.formatted_movie_name}}" class="text-decoration-none">TOMATOMETER</a></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -271,18 +302,38 @@
 
 {% if movie.movie_verified == False %}
 <div class="text-center bg-dark container rounded">
-    <div class="d-flex justify-content-between p-3"> 
+    <div class="d-flex justify-content-end p-3"> 
         
-            <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+            <button class="btn btn-danger btn-lg me-3" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
             
        
         <form method="GET" action="{% url 'verify_movie' movie.id %}">
             {% csrf_token %}
-            <button class="btn btn-primary btn-lg">Confirm Movie</button>
+            <button class="btn btn-primary btn-lg">Validate Movie</button>
         </form>
        
     </div>
 
 </div>{% endif %}
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content bg-dark text-light">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="deleteModalLabel">Confirmation </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are You Sure You Want to Delete {{movie.movie_name}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          <a href="{% url 'delete_movie' movie.id %}" class="text-decoration-none"><button type="button"
+              class="btn btn-primary">Delete</button></a>
+        </div>
+      </div>
+    </div>
+  </div>
 
 {% endblock content %}

@@ -14,11 +14,13 @@ class AddMoviesForm(forms.ModelForm):
             "movie_director": forms.TextInput(attrs={"class": "form-control normal-text"}),
             "movie_writer": forms.TextInput(attrs={"class": "form-control normal-text"}),
             "movie_length": forms.NumberInput(attrs={"class": "form-control"}),
-            "movie_release": forms.DateInput(attrs={"class": "form-control normal-text"}),
+            "movie_release": forms.DateInput(attrs={"class": "form-control normal-text", "placeholder": "YYYY-MM-DD"}),
             "movie_poster": forms.FileInput(attrs={"class": "form-control"}),
-            "movie_images": forms.FileInput(attrs={"class": "form-control "}),
+            "movie_images": forms.FileInput(attrs={"class": "form-control"}),
             "movie_language": forms.Select(attrs={"class": "form-control"}),
         }
+        labels = {"movie_images": "Movie Background (Landscape Format.)",
+                  "movie_poster": "Movie Poster (Portrait Format.)"}
 
 
 class ReviewAndRateForm(forms.ModelForm):

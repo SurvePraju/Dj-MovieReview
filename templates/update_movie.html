@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}Update Movies{% endblock title %}
+
+
+{% block content %}
+<div class="container w-75 bg-dark mt-5 p-5 mx-auto rounded shadow">
+    <h3 class="text-center text-light">Update Movie
+        <hr>
+    </h3>
+
+
+    <div class="row form-bg rounded overflow-auto">
+        <div class="col-6"></div>
+        <div class="col-6 h-50 pe-0">
+            <form action="{% url 'update_movie_id' movie.id %}" method="POST" enctype="multipart/form-data"
+                class="text-light px-3 bg-blur pyx-3">
+
+                {% csrf_token %}
+
+                {{ form|crispy }}
+                <div class="d-grid gap-2">
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#updateModal" class="btn btn-primary btn-lg mb-2">Update</button>
+                </div>
+
+                <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content bg-dark text-light">
+                        <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="updateModalLabel">Confirmation </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        Are You Sure You Want to Update {{movie.movie_name}}
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        <button type="submit"
+                            class="btn btn-primary">Update</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
+
