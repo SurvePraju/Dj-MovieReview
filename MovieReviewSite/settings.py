@@ -92,7 +92,7 @@ DATABASES = {
 }
 
 DATABASES["default"] = dj_database_url.parse(
-    "DATABASES")
+    "postgres://survepraju_a1qv_user:OMBp5PIOMdEjN09XKwUqq4nRiVFX0fuV@dpg-cmsfgtmd3nmc73esccb0-a.oregon-postgres.render.com/survepraju_a1qv")
 
 
 # Password validation
