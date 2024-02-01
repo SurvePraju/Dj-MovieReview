@@ -22,12 +22,11 @@ STATIC_DIR = os.path.join(BASE_DIR, "static")
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-%rkhpuu84p=@2v)ii409yo(hnbtxeoq365w&0k78f47w1var7-"
-
+SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOST").split(" ")
 
 
 # Application definition
@@ -93,7 +92,7 @@ DATABASES = {
 }
 
 DATABASES["default"] = dj_database_url.parse(
-    "postgres://survepraju_a1qv_user:OMBp5PIOMdEjN09XKwUqq4nRiVFX0fuV@dpg-cmsfgtmd3nmc73esccb0-a.oregon-postgres.render.com/survepraju_a1qv")
+    "DATABASES")
 
 
 # Password validation
@@ -144,6 +143,6 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True  # Use TLS if your email provider supports it
 EMAIL_USE_SSL = False  # Use SSL if required by your email provider
-EMAIL_HOST_USER = 'survepraju99@gmail.com'
-EMAIL_HOST_PASSWORD = 'bvthjaiqvffckvei'
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = 'noreply@example.com'
