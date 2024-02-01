@@ -1,0 +1,343 @@
+ body {
+     background-color: rgb(135, 180, 210);
+     background-image: url("../images/background.jpg");
+     background-repeat: no-repeat;
+     background-size: cover;
+     backdrop-filter: blur(3px);
+
+
+
+ }
+
+ .carousel-text {
+     text-align: left;
+     padding-top: 200px;
+     margin-top: 200px;
+     padding-bottom: 100px;
+     padding-left: 50px;
+ }
+
+
+
+ input[type="text"]:not(.normal-text):not(#movie-form) {
+     width: 49%;
+     display: inline;
+ }
+
+ input[type="text"]:only-child(.fifty-text) {
+     width: 50%;
+     display: inline;
+ }
+
+ input[type="file"] {
+     width: 100%;
+     display: inline;
+
+ }
+
+ #movie-form .form-label {
+     display: inline;
+ }
+
+ input[type="password"]:not(.normal-input) {
+     width: 49%;
+     display: inline;
+ }
+
+ .exd {
+     width: 100px;
+ }
+
+ /* .dropdown-menu {
+     position: absolute;
+     left: 0;
+ } */
+
+
+ .modal {
+     position: absolute;
+     height: 100vh;
+     width: 100vw;
+
+ }
+
+ .modal-dailog {
+     width: 300px;
+     height: 300px;
+ }
+
+ #btn-back-to-top {
+     position: fixed;
+     bottom: 20px;
+     right: 20px;
+     display: none;
+ }
+
+ .cast:hover {
+     color: rgb(37, 37, 70);
+ }
+
+ .search-box {
+     width: 400px;
+     padding: 10px;
+     color: black;
+     background-color: rgb(37, 34, 54);
+ }
+
+ .search-box::placeholder {
+     color: white;
+     opacity: 0.3;
+ }
+
+ .search-box:focus {
+     background-color: rgb(37, 34, 54);
+     color: white;
+     opacity: 1;
+     border: 1px solid white;
+ }
+
+ .small-text-custom {
+     font-size: 8px;
+ }
+
+ .review-size {
+     font-size: 75px;
+ }
+
+ .navbar-hover:hover {
+     background-color: rgb(182, 212, 202);
+     color: black;
+     padding-left: 10px;
+ }
+
+ .navbar-links:hover {
+     color: rgba(255, 255, 255, 0.5)
+ }
+
+ .search-bar {
+     text-align: center;
+ }
+
+ #logo-font {
+     font-family: Copperplate, "Copperplate Gothic Light", fantasy;
+ }
+
+
+ /* .accordion-button:focus {
+    background-color: rgb(196, 76, 76);
+    color: azure;
+} */
+
+
+ .movie-font {
+     font-size: 18px;
+     font-family: cursive;
+ }
+
+ .movie-info {
+     font-size: 16px;
+     font-family: Arial, Helvetica, sans-serif;
+ }
+
+ .movie-details {
+     font-size: 14px;
+     opacity: 0.7;
+ }
+
+ .movie-text {
+     font-size: 12px;
+     color: rgba(0, 0, 0, 0.5);
+ }
+
+ .movie-banner {
+     /* height: 380px; */
+     height: 345px;
+ }
+
+ .another-movie-banner {
+     height: 360px;
+     width: 220px;
+ }
+
+ .movie-poster-image {
+     max-height: 80%;
+ }
+
+ .select:hover {
+     transform: scale(1.03);
+     transition: all 300ms;
+ }
+
+ .movie-cover {
+     position: relative;
+     /* right: 0; */
+     top: 11%;
+     left: 0;
+
+ }
+
+
+ .movie-cover-overlap {
+     position: relative;
+
+     left: 3.5%;
+     top: -100px;
+ }
+
+ .genre-poster {
+     height: 210px;
+     width: 210px;
+     border-radius: 10px;
+     box-shadow: 0 0 10px black;
+
+ }
+
+ .genre-container {
+     position: relative;
+     text-align: center;
+     color: white;
+ }
+
+
+ .bottom-left {
+     position: absolute;
+     bottom: 8px;
+     left: 8px;
+     font-size: 20px;
+ }
+
+ .bottom-right {
+     position: absolute;
+     bottom: 8px;
+     right: 8px;
+     font-size: 20px;
+ }
+
+ .top-right {
+     position: absolute;
+     top: 8px;
+     right: 8px;
+     font-size: 20px;
+     left: 87%;
+ }
+
+ .img-hover-zoom {
+     height: 210px;
+     width: 210px;
+     overflow: hidden;
+     border-radius: 10px;
+     box-shadow: 0 0 10px black;
+
+ }
+
+
+ .img-hover-zoom img {
+     transition: transform .5s ease;
+     border-radius: 10px;
+ }
+
+
+ .img-hover-zoom:hover img {
+     transform: scale(1.5);
+     border-radius: 10px;
+ }
+
+
+ .sticky-footer {
+     margin-top: auto;
+     background-color: rgb(177, 193, 207);
+ }
+
+
+
+ .caro-home {
+     max-height: 400px;
+     object-fit: cover;
+     object-position: 100% 50%;
+     box-shadow: 0 0 10px 10px black inset;
+ }
+
+
+ .caro-buttons {
+     position: relative;
+     text-align: center;
+     color: white;
+ }
+
+
+
+ .people-image-ls {
+
+     max-height: 250px;
+
+ }
+
+ textarea {
+     resize: none;
+     height: 90px;
+ }
+
+
+
+
+ /* Blur Edges */
+ .caroimg {
+     -webkit-box-shadow: 12px 29px 81px 0px rgba(0, 0, 0, 0.75);
+     -moz-box-shadow: 12px 29px 81px 0px rgba(0, 0, 0, 0.75);
+     box-shadow: 12px 29px 81px 0px rgba(0, 0, 0, 0.75);
+ }
+
+ .blank-stars {
+     position: absolute;
+ }
+
+ .filled-stars {
+     position: relative;
+ }
+
+
+ .select-hover:hover {
+     opacity: 40px;
+ }
+
+
+ .form-bg {
+     background-image: url("/static/images/form-bg.jpg");
+     /* background-color: aqua; */
+     background-repeat: no-repeat;
+     background-size: contain;
+     width: auto;
+     height: 580px;
+ }
+
+ .bg-blur {
+     background-color: rgba(0, 0, 0, 0.6);
+
+ }
+
+
+ .unverified_movies {
+     /* right: 0; */
+     min-width: 400px;
+
+     max-height: 600px;
+     overflow-y: auto;
+
+ }
+
+ .movie-home-banner {
+     height: 280px;
+ }
+
+ .movie-banner-home {
+     width: 230px;
+     height: 350px;
+ }
+
+ .big-letter {
+     font-size: 150px;
+ }
+
+ .tiny-text {
+     font-size: 13px;
+ }
